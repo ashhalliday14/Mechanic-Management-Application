@@ -17,15 +17,15 @@ namespace AdvancedProgramming.Models
         public string AssignedTo { get; set; }
         public string Completed { get; set; }
 
-        public Task(int JobID, string TaskName, string Description, decimal Price, string AssignedTo, string Completed)
-        {
-            this.JobID = JobID;
-            this.TaskName = TaskName;
-            this.Description = Description;
-            this.Price = Price;
-            this.AssignedTo = AssignedTo;
-            this.Completed = Completed;
-        }
+        //public Task(int JobID, string TaskName, string Description, decimal Price, string AssignedTo, string Completed)
+        //{
+            //this.JobID = JobID;
+            //this.TaskName = TaskName;
+            //this.Description = Description;
+            //this.Price = Price;
+            //this.AssignedTo = AssignedTo;
+            //this.Completed = Completed;
+        //}
     }
 }
 

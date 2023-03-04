@@ -13,11 +13,11 @@ namespace AdvancedProgramming.Models
         public string Password { get; set; }
         public string Role { get; set; }
 
-        public User(string Username, string Password, string Role)
-        {
-            this.Username = Username;
-            this.Password = Password;
-            this.Role = Role;
-        }
+        //public User(string Username, string Password, string Role)
+        //{
+            //this.Username = Username;
+            //this.Password = Password;
+            //this.Role = Role;
+        //}
     }
 }

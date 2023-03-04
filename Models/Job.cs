@@ -15,13 +15,13 @@ namespace AdvancedProgramming.Models
         public string AssignedTo { get; set; }
         public string Completed { get; set; }
 
-        public Job(int CustomerId, string Description, decimal Price, string AssignedTo, string Completed)
-        {
-            this.CustomerId = CustomerId;
-            this.Description = Description;
-            this.Price = Price;
-            this.AssignedTo = AssignedTo;
-            this.Completed = Completed;
-        }
+        //public Job(int CustomerId, string Description, decimal Price, string AssignedTo, string Completed)
+        //{
+            //this.CustomerId = CustomerId;
+            //this.Description = Description;
+            //this.Price = Price;
+            //this.AssignedTo = AssignedTo;
+            //this.Completed = Completed;
+        //}
     }
 }

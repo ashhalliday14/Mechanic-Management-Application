@@ -13,6 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using AdvancedProgramming.Models;
+using AdvancedProgramming.Data;
 
 namespace AdvancedProgramming
 {
@@ -37,7 +38,7 @@ namespace AdvancedProgramming
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             string username = usernameTextBox.Text;
-            string password = passwordTextBox.Text;
+            string password = passwordTextBox.Password;
 
             if (string.IsNullOrEmpty(username) || string.IsNullOrEmpty(password))
             {
@@ -45,7 +46,16 @@ namespace AdvancedProgramming
                 return;
             }
 
-            bool isValid = CheckUserCredentials(username, password);
+            bool isUserValid = CheckUserCredentials(username, password);
+
+            if(isUserValid)
+            {
+                MessageBox.Show("Login successful");
+            }
+            else
+            {
+                MessageBox.Show("Invalid username or password");
+            }
         }
     }
 }

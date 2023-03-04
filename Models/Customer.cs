@@ -15,12 +15,12 @@ namespace DatabaseExample.Models
         public string PhoneNumber { get; set; }
         public string Email { get; set; }
 
-        public Customer(string Name, string Address, string PhoneNumber, string Email)
-        {
-            this.Name = Name;
-            this.Address = Address;
-            this.PhoneNumber = PhoneNumber;
-            this.Email = Email;
-        }
+        //public Customer(string Name, string Address, string PhoneNumber, string Email)
+        //{
+            //this.Name = Name;
+            //this.Address = Address;
+            //this.PhoneNumber = PhoneNumber;
+            //this.Email = Email;
+        //}
     }
 }

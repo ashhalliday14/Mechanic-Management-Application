@@ -15,13 +15,13 @@ namespace AdvancedProgramming.Models
         public string PaymentSchedule { get; set; }
         public DateTime Date { get; set; }
 
-        public Invoice(int CustomerId, decimal AmountOwed, decimal AmountPaid, string PaymentSchedule, DateTime Date)
-        {
-            this.CustomerId = CustomerId;
-            this.AmountOwed = AmountOwed;
-            this.AmountPaid = AmountPaid;
-            this.PaymentSchedule = PaymentSchedule;
-            this.Date = Date;
-        }
+        //public Invoice(int CustomerId, decimal AmountOwed, decimal AmountPaid, string PaymentSchedule, DateTime Date)
+        //{
+            //this.CustomerId = CustomerId;
+            //this.AmountOwed = AmountOwed;
+            //this.AmountPaid = AmountPaid;
+            //this.PaymentSchedule = PaymentSchedule;
+            //this.Date = Date;
+        //}
     }
 }

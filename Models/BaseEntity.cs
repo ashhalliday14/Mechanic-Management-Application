@@ -14,10 +14,10 @@ namespace AdvancedProgramming.Models
         public string Id { get; set; }
         public DateTimeOffset CreatedAt { get; set; }
 
-        public BaseEntity()
-        {
-            this.Id = Guid.NewGuid().ToString();
-            this.CreatedAt = DateTime.Now;
-        }
+        //public BaseEntity()
+        //{
+            //this.Id = Guid.NewGuid().ToString();
+            //this.CreatedAt = DateTime.Now;
+        //}
     }
 }
