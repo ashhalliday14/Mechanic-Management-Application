@@ -26,6 +26,8 @@ namespace AdvancedProgramming
                 new ContainerControlledLifetimeManager());
             _container.RegisterType<IRepository<User>, SQLRepository<User>>(
                 new ContainerControlledLifetimeManager());
+            _container.RegisterType<IRepository<Role>, SQLRepository<Role>>(
+                new ContainerControlledLifetimeManager());
             _container.RegisterType<IRepository<Invoice>, SQLRepository<Invoice>>(
                 new ContainerControlledLifetimeManager());
         }
