@@ -1,0 +1,52 @@
+﻿<Window x:Class="AdvancedProgramming.ManageCustomers"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:AdvancedProgramming"
+        mc:Ignorable="d"
+        Title="SystemAdminMenu" Height="450" Width="800">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="161*"/>
+            <RowDefinition Height="258*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="83*"/>
+            <ColumnDefinition Width="403*"/>
+            <ColumnDefinition Width="306*"/>
+        </Grid.ColumnDefinitions>
+        <Rectangle Height="99" VerticalAlignment="Top" Grid.ColumnSpan="3">
+            <Rectangle.Fill>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="#FF2281D1"/>
+                    <GradientStop Color="#FF34268A" Offset="1"/>
+                    <GradientStop Color="#FF33288B" Offset="0.546"/>
+                </LinearGradientBrush>
+            </Rectangle.Fill>
+        </Rectangle>
+        <Image Source="Assets/home.png" Height="62" VerticalAlignment="Top" Margin="23,19,393,0" RenderTransformOrigin="0.602,0.992" Grid.ColumnSpan="2"/>
+        <Grid VerticalAlignment="Bottom" Margin="35,0,0,49" Height="271" Grid.ColumnSpan="3" Grid.RowSpan="2" HorizontalAlignment="Left" Width="722">
+            
+            <Label Content="Manage Customers" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="230,-72,236,0" Foreground="White" FontSize="28" Width="256"/>
+            <Label Content="Name:" HorizontalAlignment="Left" Margin="121,39,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.359,0"/>
+            <Label Content="Address:" HorizontalAlignment="Left" Margin="121,88,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.15,0.708"/>
+            <Label Content="Phone Number:" HorizontalAlignment="Left" Margin="121,133,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.516,0.083"/>
+            <Label Content="Email:" HorizontalAlignment="Left" Margin="124,184,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.516,0.083"/>
+            
+            <TextBox x:Name="txtCustomerName" HorizontalAlignment="Left" Height="23" Margin="257,39,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="272"/>
+            <TextBox x:Name="txtCustomerAddress" HorizontalAlignment="Left" Height="23" Margin="257,88,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="272"/>
+            <TextBox x:Name="txtPhoneNumber" HorizontalAlignment="Left" Height="23" Margin="257,134,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="272"/>
+            <TextBox x:Name="txtEmail" HorizontalAlignment="Left" Height="23" Margin="257,184,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="272"/>
+
+            <Button Content="Back" HorizontalAlignment="Left" Margin="0,22,0,0" VerticalAlignment="Top" Width="56" FontSize="10" Height="28" Click="Back"/>
+            <Button x:Name="btnSave" Content="Save" HorizontalAlignment="Left" Margin="312,251,0,-11" Width="61" FontSize="10" Height="Auto" Click="SaveRecord"/>
+            <Button x:Name="btnDelete" Content="Delete" HorizontalAlignment="Left" Margin="635,64,0,176" Width="61" FontSize="10" Height="Auto" Click="DeleteCustomer"/>
+            <Button x:Name="btnNew" Content="New" HorizontalAlignment="Left" Margin="635,132,0,108" Width="61" FontSize="10" Height="Auto" Click="CreateCustomer"/>
+            <Button x:Name="btnNextRecord" Content="&gt;" HorizontalAlignment="Left" Margin="464,249,0,-11" VerticalAlignment="Top" Width="39" FontSize="10" Height="33" Click="NextRecord"/>
+            <Button x:Name="btnPreviousRecord" Content="&lt;" HorizontalAlignment="Left" Margin="178,251,0,-13" VerticalAlignment="Top" Width="39" FontSize="10" Height="33" Click="PreviousRecord"/>
+            <Button x:Name="btnFirstRecord" Content="|&lt;" HorizontalAlignment="Left" Margin="61,250,0,-12" VerticalAlignment="Top" Width="39" FontSize="10" Height="33" Click="FirstRecord"/>
+            <Button x:Name="btnLastRecord" Content="|&gt;" HorizontalAlignment="Left" Margin="588,250,0,-12" VerticalAlignment="Top" Width="39" FontSize="10" Height="33" Click="LastRecord"/>
+        </Grid>
+    </Grid>
+</Window>

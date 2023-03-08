@@ -30,6 +30,10 @@ namespace AdvancedProgramming
                 new ContainerControlledLifetimeManager());
             _container.RegisterType<IRepository<Invoice>, SQLRepository<Invoice>>(
                 new ContainerControlledLifetimeManager());
+            _container.RegisterType<IRepository<Completed>, SQLRepository<Completed>>(
+                new ContainerControlledLifetimeManager());
+            _container.RegisterType<IRepository<AssignedTo>, SQLRepository<AssignedTo>>(
+                new ContainerControlledLifetimeManager());
         }
 
         public static IUnityContainer Container

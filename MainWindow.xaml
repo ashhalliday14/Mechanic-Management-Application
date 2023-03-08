@@ -37,6 +37,6 @@
       </StackPanel>
     </Grid>
     <Button Click="Login" Width="150" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,65" Content="Login" x:Name="buttonLogin"/>
-    <Image  Width="100" Height="100" VerticalAlignment="Top" Margin="30" Source="home.png"/>
+    <Image  Width="100" Height="100" VerticalAlignment="Top" Margin="30" Source="Assets/home.png"/>
     </Grid>
 </Window>

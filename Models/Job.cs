@@ -9,7 +9,7 @@ namespace AdvancedProgramming.Models
     //class for jobs being performed on vehicles
     public class Job : BaseEntity
     {
-        public int CustomerId { get; set; }
+        public string CustomerName { get; set; }
         public string Description { get; set; }
         public decimal Price { get; set; }
         public string AssignedTo { get; set; }

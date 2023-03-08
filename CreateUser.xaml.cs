@@ -25,12 +25,14 @@ namespace AdvancedProgramming
         User loggedInUser;
         IRepository<User> userContext;
         IRepository<Role> roleContext;
+        IRepository<AssignedTo> assignedToContext;
         public CreateUser(User u)
         {
             loggedInUser = u;
 
             this.userContext = ContainerHelper.Container.Resolve<IRepository<User>>();
             this.roleContext = ContainerHelper.Container.Resolve<IRepository<Role>>();
+            this.assignedToContext = ContainerHelper.Container.Resolve<IRepository<AssignedTo>>();
 
             InitializeComponent();
 
@@ -57,12 +59,18 @@ namespace AdvancedProgramming
             else
             {
                 User user = new User();
+                AssignedTo assTo = new AssignedTo();
+
                 user.Username = txtUsername.Text;
                 user.Password = txtPassword.Text;
                 user.Role = cmbRole.SelectedValue.ToString();
-                MessageBox.Show("Selected role is " + user.Role);
+                assTo.Name = txtUsername.Text;
+
                 userContext.Insert(user);
+                assignedToContext.Insert(assTo);
+
                 await userContext.Commit();
+                await assignedToContext.Commit();
                 MessageBox.Show("User has been successfully created");
                 ManageSystemUsers msu = new ManageSystemUsers(loggedInUser);
                 this.Hide();

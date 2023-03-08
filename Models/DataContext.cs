@@ -22,5 +22,7 @@ namespace AdvancedProgramming.Models
         public DbSet<User> Users { get; set; }
         public DbSet<Role> Roles { get; set; }
         public DbSet<Invoice> Invoices { get; set; }
+        public DbSet<Completed> Completeds { get; set; }
+        public DbSet<AssignedTo> AssignedTos { get; set; }
     }
 }

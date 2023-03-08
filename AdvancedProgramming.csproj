@@ -83,20 +83,64 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Views\CreateUser.xaml.cs">
+    <Compile Include="CreateCustomer.xaml.cs">
+      <DependentUpon>CreateCustomer.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="CreateJob.xaml.cs">
+      <DependentUpon>CreateJob.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="CreateTask.xaml.cs">
+      <DependentUpon>CreateTask.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="CreateUser.xaml.cs">
       <DependentUpon>CreateUser.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\ManageSystemUsers.xaml.cs">
+    <Compile Include="ManageCustomers.xaml.cs">
+      <DependentUpon>ManageCustomers.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ManageJobs.xaml.cs">
+      <DependentUpon>ManageJobs.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ManageSystemUsers.xaml.cs">
       <DependentUpon>ManageSystemUsers.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\SystemAdminMenu.xaml.cs">
+    <Compile Include="ManageTasks.xaml.cs">
+      <DependentUpon>ManageTasks.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202303072114342_Completed.cs" />
+    <Compile Include="Migrations\202303072114342_Completed.designer.cs">
+      <DependentUpon>202303072114342_Completed.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202303080920445_AssignedTo.cs" />
+    <Compile Include="Migrations\202303080920445_AssignedTo.designer.cs">
+      <DependentUpon>202303080920445_AssignedTo.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202303081011262_CustomerName.cs" />
+    <Compile Include="Migrations\202303081011262_CustomerName.designer.cs">
+      <DependentUpon>202303081011262_CustomerName.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Models\AssignedTo.cs" />
+    <Compile Include="Models\Completed.cs" />
+    <Compile Include="SystemAdminMenu.xaml.cs">
       <DependentUpon>SystemAdminMenu.xaml</DependentUpon>
     </Compile>
-    <Page Include="Views\CreateUser.xaml">
+    <Page Include="CreateCustomer.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\MainWindow.xaml">
+    <Page Include="CreateJob.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="CreateTask.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="CreateUser.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -108,15 +152,27 @@
     <Compile Include="Contracts\IRepository.cs" />
     <Compile Include="Data\SeedData.cs" />
     <Compile Include="Data\SQLRepository.cs" />
-    <Compile Include="Views\MainWindow.xaml.cs">
+    <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="Views\ManageSystemUsers.xaml">
+    <Page Include="ManageCustomers.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\SystemAdminMenu.xaml">
+    <Page Include="ManageJobs.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ManageSystemUsers.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ManageTasks.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="SystemAdminMenu.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -158,6 +214,15 @@
     <EmbeddedResource Include="Migrations\202303051511179_IncludedRoleClass.resx">
       <DependentUpon>202303051511179_IncludedRoleClass.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202303072114342_Completed.resx">
+      <DependentUpon>202303072114342_Completed.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202303080920445_AssignedTo.resx">
+      <DependentUpon>202303080920445_AssignedTo.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202303081011262_CustomerName.resx">
+      <DependentUpon>202303081011262_CustomerName.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -173,6 +238,9 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Assets\home.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Views\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

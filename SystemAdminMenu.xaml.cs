@@ -39,6 +39,27 @@ namespace AdvancedProgramming
             msu.Show();
         }
 
+        private void ManageCustomers(object sender, RoutedEventArgs e)
+        {
+            Hide();
+            ManageCustomers mc = new ManageCustomers(loggedInUser);
+            mc.Show();
+        }
+
+        private void ManageJobs(object sender, RoutedEventArgs e)
+        {
+            Hide();
+            ManageJobs mj = new ManageJobs(loggedInUser);
+            mj.Show();
+        }
+
+        private void ManageTasks(object sender, RoutedEventArgs e)
+        {
+            Hide();
+            ManageTasks mt = new ManageTasks(loggedInUser);
+            mt.Show();
+        }
+
         public void LoadMessages()
         {
             messages = new List<string>();
@@ -62,6 +83,11 @@ namespace AdvancedProgramming
             var random = new Random();
             int index = random.Next(messages.Count);
             lblMessage.Text = messages[index];
+        }
+
+        private void Exit(object sender, RoutedEventArgs e)
+        {
+            System.Windows.Application.Current.Shutdown();
         }
     }
 }
