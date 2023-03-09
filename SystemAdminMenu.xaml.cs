@@ -53,11 +53,11 @@ namespace AdvancedProgramming
             mj.Show();
         }
 
-        private void ManageTasks(object sender, RoutedEventArgs e)
+        private void ManageInvoices(object sender, RoutedEventArgs e)
         {
-            Hide();
-            ManageTasks mt = new ManageTasks(loggedInUser);
-            mt.Show();
+            //Hide();
+            //ManageInvoices mi = new ManageInvoices(loggedInUser);
+            //mi.Show();
         }
 
         public void LoadMessages()

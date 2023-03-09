@@ -39,17 +39,21 @@
 
             <Button Content="Back" HorizontalAlignment="Left" Margin="0,22,0,0" VerticalAlignment="Top" Width="56" FontSize="10" Height="28" Click="Back"/>
             <Button x:Name="btnSave" Content="Save" HorizontalAlignment="Left" Margin="312,251,0,-11" Width="61" FontSize="10" Height="Auto" Click="SaveRecord"/>
-            <Button x:Name="btnDelete" Content="Delete" HorizontalAlignment="Left" Margin="635,64,0,176" Width="61" FontSize="10" Height="Auto" Click="DeleteJob"/>
-            <Button x:Name="btnNew" Content="New" HorizontalAlignment="Left" Margin="635,132,0,108" Width="61" FontSize="10" Height="Auto" Click="CreateJob"/>
+            <Button x:Name="btnDelete" Content="Delete" HorizontalAlignment="Left" Margin="635,25,0,215" Width="61" FontSize="10" Height="Auto" Click="DeleteJob" RenderTransformOrigin="0.492,-0.097"/>
+            <Button x:Name="btnNew" Content="New" HorizontalAlignment="Left" Margin="635,79,0,161" Width="61" FontSize="10" Height="Auto" Click="CreateJob"/>
             <Button x:Name="btnNextRecord" Content="&gt;" HorizontalAlignment="Left" Margin="464,249,0,-11" VerticalAlignment="Top" Width="39" FontSize="10" Height="33" Click="NextRecord"/>
             <Button x:Name="btnPreviousRecord" Content="&lt;" HorizontalAlignment="Left" Margin="178,251,0,-13" VerticalAlignment="Top" Width="39" FontSize="10" Height="33" Click="PreviousRecord"/>
             <Button x:Name="btnFirstRecord" Content="|&lt;" HorizontalAlignment="Left" Margin="61,250,0,-12" VerticalAlignment="Top" Width="39" FontSize="10" Height="33" Click="FirstRecord"/>
             <Button x:Name="btnLastRecord" Content="|&gt;" HorizontalAlignment="Left" Margin="588,250,0,-12" VerticalAlignment="Top" Width="39" FontSize="10" Height="33" Click="LastRecord"/>
-            
+
             <ComboBox x:Name="cmbCustomer" HorizontalAlignment="Left" Margin="257,25,0,0" VerticalAlignment="Top" Width="272"/>
             <ComboBox x:Name="cmbAssignedTo" HorizontalAlignment="Left" Margin="257,155,0,0" VerticalAlignment="Top" Width="272"/>
             <ComboBox x:Name="cmbCompleted" HorizontalAlignment="Left" Margin="257,199,0,0" VerticalAlignment="Top" Width="272"/>
-            
+            <Button x:Name="btnAddTasks" Content="Add Task" HorizontalAlignment="Left" Margin="608,135,0,105" Width="88" FontSize="10" Height="Auto" Click="CreateTask"/>
+            <Button x:Name="btnViewTasks" Content="View Tasks" HorizontalAlignment="Left" Margin="608,197,0,43" Width="88" FontSize="10" Height="Auto" Click="ViewTasks"/>
+            <Button x:Name="btnAddInvoice" Content="Add Invoice" HorizontalAlignment="Left" Margin="0,135,0,105" Width="88" FontSize="10" Height="Auto" Click="CreateInvoice"/>
+            <Button x:Name="btnViewInvoice" Content="View Invoice" HorizontalAlignment="Left" Margin="0,193,0,47" Width="88" FontSize="10" Height="Auto" Click="ManageInvoice"/>
+
         </Grid>
     </Grid>
 </Window>

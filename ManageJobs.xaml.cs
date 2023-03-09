@@ -232,5 +232,37 @@ namespace AdvancedProgramming
             CreateJob cj = new CreateJob(loggedInUser);
             cj.Show();
         }
+
+        private void CreateTask(object sender, RoutedEventArgs e)
+        {
+            string jobID = selectedJob.Id;
+            this.Hide();
+            CreateTask ct = new CreateTask(loggedInUser, jobID);
+            ct.Show();
+        }
+
+        private void ViewTasks(object sender, RoutedEventArgs e)
+        {
+            string jobID = selectedJob.Id;
+            this.Hide();
+            ManageTasks mt = new ManageTasks(loggedInUser, jobID);
+            mt.Show();
+        }
+
+        private void CreateInvoice(object sender, RoutedEventArgs e)
+        {
+            string jobID = selectedJob.Id;
+            this.Hide();
+            CreateInvoice ci = new CreateInvoice(loggedInUser, jobID);
+            ci.Show();
+        }
+
+        private void ManageInvoice(object sender, RoutedEventArgs e)
+        {
+            string jobID = selectedJob.Id;
+            this.Hide();
+            ManageInvoices mi = new ManageInvoices(loggedInUser, jobID);
+            mi.Show();
+        }
     }
 }
