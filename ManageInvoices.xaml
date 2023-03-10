@@ -39,7 +39,7 @@
 
             <Button Content="Back" HorizontalAlignment="Left" Margin="0,22,0,0" VerticalAlignment="Top" Width="56" FontSize="10" Height="28" Click="Back"/>
             <Button x:Name="btnSave" Content="Save" HorizontalAlignment="Left" Margin="312,251,0,-11" Width="61" FontSize="10" Height="Auto" Click="SaveRecord"/>
-            <Button x:Name="btnDelete" Content="Delete" HorizontalAlignment="Left" Margin="635,25,0,215" Width="61" FontSize="10" Height="Auto" Click="DeleteJob" RenderTransformOrigin="0.492,-0.097"/>
+            <!--<Button x:Name="btnDelete" Content="Delete" HorizontalAlignment="Left" Margin="635,25,0,215" Width="61" FontSize="10" Height="Auto" Click="DeleteJob" RenderTransformOrigin="0.492,-0.097"/>-->
             <Button x:Name="btnNextRecord" Content="&gt;" HorizontalAlignment="Left" Margin="464,249,0,-11" Width="39" FontSize="10" Height="Auto" Click="NextRecord"/>
             <Button x:Name="btnPreviousRecord" Content="&lt;" HorizontalAlignment="Left" Margin="178,251,0,-13" VerticalAlignment="Top" Width="39" FontSize="10" Height="33" Click="PreviousRecord"/>
             <Button x:Name="btnFirstRecord" Content="|&lt;" HorizontalAlignment="Left" Margin="61,250,0,-12" VerticalAlignment="Top" Width="39" FontSize="10" Height="33" Click="FirstRecord"/>

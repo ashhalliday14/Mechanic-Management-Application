@@ -42,6 +42,33 @@
                     </MenuItem>
                 </Menu>
             </DockPanel>
+            <Label Content="All Active Jobs Assigned:" HorizontalAlignment="Left" Margin="49,74,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.359,0"/>
+            <Label Content="All Active Tasks Assigned:" HorizontalAlignment="Left" Margin="456,74,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.359,0"/>
+            <Label Content="Description:" HorizontalAlignment="Left" Margin="0,112,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.359,0"/>
+            <Label Content="Assigned To:" HorizontalAlignment="Left" Margin="0,141,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.359,0"/>
+            <Label Content="Completed:" HorizontalAlignment="Left" Margin="0,170,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.359,0"/>
+            <Label Content="Customer Name:" HorizontalAlignment="Left" Margin="0,199,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.359,0"/>
+            <Button Content="Refresh Jobs" HorizontalAlignment="Center" Click="RefreshJobs" Margin="211,74,401,173" FontSize="12" Width="110" Height="Auto" RenderTransformOrigin="0.136,0.47"/>
+            <TextBox x:Name="txtJobDescription" HorizontalAlignment="Left" Height="23" Margin="116,113,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="205"/>
+            <ComboBox x:Name="cmbAssignedTo" HorizontalAlignment="Left" Margin="116,141,0,0" VerticalAlignment="Top" Width="205"/>
+            <ComboBox x:Name="cmbCompleted" HorizontalAlignment="Left" Margin="116,169,0,0" VerticalAlignment="Top" Width="205"/>
+            <ComboBox x:Name="cmbCustomer" HorizontalAlignment="Left" Margin="116,199,0,0" VerticalAlignment="Top" Width="205"/>
+            <Button x:Name="btnPreviousRecord" Content="&lt;" HorizontalAlignment="Left" Margin="116,248,0,-15" VerticalAlignment="Top" Width="43" FontSize="10" Height="38" Click="PreviousRecord" RenderTransformOrigin="-0.048,0.56"/>
+            <Button x:Name="btnNextRecord" Content="&gt;" HorizontalAlignment="Left" Margin="234,248,0,-15" VerticalAlignment="Top" Width="43" FontSize="10" Height="38" Click="NextRecord" RenderTransformOrigin="-0.048,0.56"/>
+
+
+            <Label Content="Task Name:" HorizontalAlignment="Left" Margin="421,112,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.359,0"/>
+            <Label Content="Description:" HorizontalAlignment="Left" Margin="421,141,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.359,0"/>
+            <Label Content="Assigned To:" HorizontalAlignment="Left" Margin="421,170,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.359,0"/>
+            <Label Content="Completed:" HorizontalAlignment="Left" Margin="420,199,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.359,0"/>
+            <Button Content="Refresh Tasks" HorizontalAlignment="Center" Click="RefreshTasks" Margin="612,74,0,173" FontSize="12" Width="110" Height="Auto" RenderTransformOrigin="0.136,0.47"/>
+            <TextBox x:Name="txtTaskName" HorizontalAlignment="Left" Height="23" Margin="507,113,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="205"/>
+            <TextBox x:Name="txtDescription" HorizontalAlignment="Left" Height="23" Margin="507,143,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="205"/>
+            <ComboBox x:Name="cmbAssignedTo2" HorizontalAlignment="Left" Margin="507,173,0,0" VerticalAlignment="Top" Width="205"/>
+            <ComboBox x:Name="cmbCompleted2" HorizontalAlignment="Left" Margin="507,198,0,0" VerticalAlignment="Top" Width="205"/>
+            <Button x:Name="btnPreviousRecord2" Content="&lt;" HorizontalAlignment="Left" Margin="488,248,0,-15" VerticalAlignment="Top" Width="43" FontSize="10" Height="38" Click="PreviousRecord2" RenderTransformOrigin="-0.048,0.56"/>
+            <Button x:Name="btnNextRecord2" Content="&gt;" HorizontalAlignment="Left" Margin="636,248,0,-15" Width="43" FontSize="10" Height="Auto" Click="NextRecord2" RenderTransformOrigin="-0.048,0.56"/>
+
         </Grid>
         <Grid Grid.ColumnSpan="2" Margin="23,19,699,80">
             <Image Source="Assets/home.png" Height="62" VerticalAlignment="Top" RenderTransformOrigin="0.602,0.992" Margin="-10,0,10,0"/>
