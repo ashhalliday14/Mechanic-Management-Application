@@ -19,9 +19,9 @@ using DatabaseExample.Models;
 namespace AdvancedProgramming
 {
     /// <summary>
-    /// Interaction logic for SystemAdminMenu.xaml
+    /// Interaction logic for HeadMechanicMenu.xaml
     /// </summary>
-    public partial class SystemAdminMenu : Window
+    public partial class HeadMechanicMenu : Window
     {
         User loggedInUser;
         List<string> messages;
@@ -58,7 +58,7 @@ namespace AdvancedProgramming
         int assignedToListSize = 0;
         int assignedToPosition = 0;
 
-        //create a list for completed status
+        //create a list for completed statuss
         List<Completed> completedsList;
         Completed seletedCompleted;
         int completedListSize = 0;
@@ -69,7 +69,7 @@ namespace AdvancedProgramming
         Task selectedTask;
         int taskListSize = 0;
         int taskPosition = 0;
-        public SystemAdminMenu(User u)
+        public HeadMechanicMenu(User u)
         {
             loggedInUser = u;
 
@@ -81,22 +81,7 @@ namespace AdvancedProgramming
             this.taskContext = ContainerHelper.Container.Resolve<IRepository<Task>>();
 
             InitializeComponent();
-            
             LoadMessages();
-        }
-
-        private void ManageSystemUsers(object sender, RoutedEventArgs e)
-        {
-            Hide();
-            ManageSystemUsers msu = new ManageSystemUsers(loggedInUser);
-            msu.Show();
-        }
-
-        private void ManageCustomers(object sender, RoutedEventArgs e)
-        {
-            Hide();
-            ManageCustomers mc = new ManageCustomers(loggedInUser);
-            mc.Show();
         }
 
         private void ManageJobs(object sender, RoutedEventArgs e)
@@ -104,20 +89,6 @@ namespace AdvancedProgramming
             Hide();
             ManageJobs mj = new ManageJobs(loggedInUser);
             mj.Show();
-        }
-
-        private void AuditTrail(object sender, RoutedEventArgs e)
-        {
-            Hide();
-            AuditTrail at = new AuditTrail(loggedInUser);
-            at.Show();
-        }
-
-        private void ManageInvoices(object sender, RoutedEventArgs e)
-        {
-            //Hide();
-            //ManageInvoices mi = new ManageInvoices(loggedInUser);
-            //mi.Show();
         }
 
         public void LoadMessages()
@@ -221,75 +192,7 @@ namespace AdvancedProgramming
                 cmbAssignedTo.SelectedValue = selectedAssignedTo.Id;
                 cmbCompleted.SelectedValue = seletedCompleted.Id;
             }
-        }
-
-        private void RefreshTasks(object sender, RoutedEventArgs e)
-        {
-            List<AssignedTo> assignedToList = assignedToContext.Collection().ToList();
-            cmbAssignedTo2.ItemsSource = assignedToList;
-            cmbAssignedTo2.DisplayMemberPath = "Name";
-            cmbAssignedTo2.SelectedValuePath = "Id";
-
-            assignedTosList = assignedToContext.Collection().ToList();
-            assignedToListSize = assignedTosList.Count();
-
-            selectedAssignedTo = assignedTosList.FirstOrDefault();
-            assignedToPosition = assignedTosList.IndexOf(selectedAssignedTo);
-
-            List<Completed> completedList = completedContext.Collection().ToList();
-            cmbCompleted2.ItemsSource = completedList;
-            cmbCompleted2.DisplayMemberPath = "Name";
-            cmbCompleted2.SelectedValuePath = "Id";
-
-            completedsList = completedContext.Collection().ToList();
-            completedListSize = completedsList.Count();
-
-            seletedCompleted = completedsList.FirstOrDefault();
-            completedPosition = completedsList.IndexOf(seletedCompleted);
-
-
-            List<Task> taskList = taskContext.Collection().ToList();
-
-            tasksList = taskContext.Collection().ToList();
-            taskListSize = tasksList.Count();
-
-            selectedTask = tasksList.FirstOrDefault();
-            taskPosition = tasksList.IndexOf(selectedTask);
-
-            //set values of fields 
-            txtTaskName.Text = selectedTask.TaskName;
-            txtDescription.Text = selectedTask.Description;
-            cmbAssignedTo2.SelectedValue = selectedAssignedTo.Id;
-            cmbCompleted2.SelectedValue = seletedCompleted.Id;
-        }
-
-        private void PreviousRecord2(object sender, RoutedEventArgs e)
-        {
-            if (taskPosition != 0)
-            {
-                selectedTask = tasksList[taskPosition - 1];
-                taskPosition = tasksList.IndexOf(selectedTask);
-
-                txtTaskName.Text = selectedTask.TaskName;
-                txtDescription.Text = selectedTask.Description;
-                cmbAssignedTo2.SelectedValue = selectedAssignedTo.Id;
-                cmbCompleted2.SelectedValue = seletedCompleted.Id;
-            }
-        }
-
-        private void NextRecord2(object sender, RoutedEventArgs e)
-        {
-            if (taskPosition != taskListSize - 1)
-            {
-                taskPosition = taskListSize - 1;
-                selectedTask = tasksList[taskPosition];
-
-                txtTaskName.Text = selectedTask.TaskName;
-                txtDescription.Text = selectedTask.Description;
-                cmbAssignedTo2.SelectedValue = selectedAssignedTo.Id;
-                cmbCompleted2.SelectedValue = seletedCompleted.Id;
-            }
-        }
+        }      
 
         private void Exit(object sender, RoutedEventArgs e)
         {

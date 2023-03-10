@@ -83,6 +83,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="AuditTrail.xaml.cs">
+      <DependentUpon>AuditTrail.xaml</DependentUpon>
+    </Compile>
     <Compile Include="CreateCustomer.xaml.cs">
       <DependentUpon>CreateCustomer.xaml</DependentUpon>
     </Compile>
@@ -98,6 +101,9 @@
     <Compile Include="CreateUser.xaml.cs">
       <DependentUpon>CreateUser.xaml</DependentUpon>
     </Compile>
+    <Compile Include="HeadMechanicMenu.xaml.cs">
+      <DependentUpon>HeadMechanicMenu.xaml</DependentUpon>
+    </Compile>
     <Compile Include="ManageCustomers.xaml.cs">
       <DependentUpon>ManageCustomers.xaml</DependentUpon>
     </Compile>
@@ -112,6 +118,9 @@
     </Compile>
     <Compile Include="ManageTasks.xaml.cs">
       <DependentUpon>ManageTasks.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="MechanicMenu.xaml.cs">
+      <DependentUpon>MechanicMenu.xaml</DependentUpon>
     </Compile>
     <Compile Include="Migrations\202303072114342_Completed.cs" />
     <Compile Include="Migrations\202303072114342_Completed.designer.cs">
@@ -138,10 +147,18 @@
       <DependentUpon>202303091307111_InvoiceUpdate2.cs</DependentUpon>
     </Compile>
     <Compile Include="Models\AssignedTo.cs" />
+    <Compile Include="Models\AuditLog.cs" />
     <Compile Include="Models\Completed.cs" />
+    <Compile Include="OfficeAdminMenu.xaml.cs">
+      <DependentUpon>OfficeAdminMenu.xaml</DependentUpon>
+    </Compile>
     <Compile Include="SystemAdminMenu.xaml.cs">
       <DependentUpon>SystemAdminMenu.xaml</DependentUpon>
     </Compile>
+    <Page Include="AuditTrail.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="CreateCustomer.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -159,6 +176,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="CreateUser.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="HeadMechanicMenu.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -195,6 +216,14 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="ManageTasks.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="MechanicMenu.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="OfficeAdminMenu.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

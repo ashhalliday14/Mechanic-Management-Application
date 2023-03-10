@@ -28,6 +28,8 @@ namespace AdvancedProgramming
         IRepository<Role> roleContext;
         List<Role> roleList;
         string roleSystemAdmin, roleHeadMechanic, roleMechanic, roleOfficeAdmin;
+
+        AuditLog audit = new AuditLog();
         
         public MainWindow()
         {
@@ -49,34 +51,35 @@ namespace AdvancedProgramming
                 if (u.Username.Equals(usernameTextBox.Text) && u.Password.Equals(passwordTextBox.Password))
                 {
                     loggedInUser = u;
+                    string username = u.Username;
 
                     if (loggedInUser.Role.Equals(roleSystemAdmin))
                     {
                         this.Hide();
-                        MessageBox.Show("Welcome Sys Adm");
                         SystemAdminMenu sam = new SystemAdminMenu(loggedInUser);
+                        audit.LogAction("logged in", username);
                         sam.Show();
                     }
                     if (loggedInUser.Role.Equals(roleHeadMechanic))
                     {
                         this.Hide();
-                        MessageBox.Show("Welcome Head mec");
-                        //HeadMechanicMenu hmm = new HeadMechanicMenu(loggedInUser);
-                        //hmm.Show();
+                        HeadMechanicMenu hmm = new HeadMechanicMenu(loggedInUser);
+                        audit.LogAction("logged in", loggedInUser.ToString());
+                        hmm.Show();
                     }
                     if (loggedInUser.Role.Equals(roleMechanic))
                     {
                         this.Hide();
-                        MessageBox.Show("Welcome mec");
-                        //MechanicMenu mm = new MechanicMenu(loggedInUser);
-                        //mm.Show();
+                        MechanicMenu mm = new MechanicMenu(loggedInUser);
+                        audit.LogAction("logged in", loggedInUser.ToString());
+                        mm.Show();
                     }
                     if (loggedInUser.Role.Equals(roleOfficeAdmin))
                     {
                         this.Hide();
-                        MessageBox.Show("Welcome off Adm");
-                        //OfficeAdminMenu oam = new OfficeAdminMenu(loggedInUser);
-                        //oam.Show();
+                        OfficeAdminMenu oam = new OfficeAdminMenu(loggedInUser);
+                        audit.LogAction("logged in", loggedInUser.ToString());
+                        oam.Show();
                     }
                 }
             }

@@ -10,18 +10,18 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
-using AdvancedProgramming.Contracts;
 using AdvancedProgramming.Models;
 using AdvancedProgramming.Data;
-using Unity;
+using AdvancedProgramming.Contracts;
 using DatabaseExample.Models;
+using Unity;
 
 namespace AdvancedProgramming
 {
     /// <summary>
-    /// Interaction logic for SystemAdminMenu.xaml
+    /// Interaction logic for OfficeAdminMenu.xaml
     /// </summary>
-    public partial class SystemAdminMenu : Window
+    public partial class OfficeAdminMenu : Window
     {
         User loggedInUser;
         List<string> messages;
@@ -69,7 +69,7 @@ namespace AdvancedProgramming
         Task selectedTask;
         int taskListSize = 0;
         int taskPosition = 0;
-        public SystemAdminMenu(User u)
+        public OfficeAdminMenu(User u)
         {
             loggedInUser = u;
 
@@ -81,7 +81,7 @@ namespace AdvancedProgramming
             this.taskContext = ContainerHelper.Container.Resolve<IRepository<Task>>();
 
             InitializeComponent();
-            
+
             LoadMessages();
         }
 
@@ -104,20 +104,6 @@ namespace AdvancedProgramming
             Hide();
             ManageJobs mj = new ManageJobs(loggedInUser);
             mj.Show();
-        }
-
-        private void AuditTrail(object sender, RoutedEventArgs e)
-        {
-            Hide();
-            AuditTrail at = new AuditTrail(loggedInUser);
-            at.Show();
-        }
-
-        private void ManageInvoices(object sender, RoutedEventArgs e)
-        {
-            //Hide();
-            //ManageInvoices mi = new ManageInvoices(loggedInUser);
-            //mi.Show();
         }
 
         public void LoadMessages()
