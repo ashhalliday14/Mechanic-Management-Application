@@ -31,11 +31,10 @@
             <DockPanel>
                 <Menu DockPanel.Dock="Top" Height="44" Margin="-30,-190,607,0" >
                     <MenuItem Header="_Menu" >
-                        <MenuItem Header="_Manage System Users" Click="ManageSystemUsers" />
                         <MenuItem Header="_Manage Customers" Click="ManageCustomers"/>
                         <MenuItem Header="_Manage Jobs" Click="ManageJobs"/>
                         <!--<MenuItem Header="_Manage Invoices" Click="ManageInvoices"/>-->
-                        <MenuItem Header="_Audit Trail"/>
+                        <!--<MenuItem Header="_Audit Trail"/>-->
                         <MenuItem Header="_Completed Jobs and Tasks"/>
                         <Separator />
                         <MenuItem Header="_Logout" Click="Exit"/>

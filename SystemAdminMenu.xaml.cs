@@ -106,20 +106,20 @@ namespace AdvancedProgramming
             mj.Show();
         }
 
+        private void CompletedJobs(object sender, RoutedEventArgs e)
+        {
+            Hide();
+            CompletedJobs cj = new CompletedJobs(loggedInUser);
+            MessageBox.Show("Comp job page");
+            cj.Show();
+        }
+
         private void AuditTrail(object sender, RoutedEventArgs e)
         {
             Hide();
             AuditTrail at = new AuditTrail(loggedInUser);
             at.Show();
         }
-
-        private void ManageInvoices(object sender, RoutedEventArgs e)
-        {
-            //Hide();
-            //ManageInvoices mi = new ManageInvoices(loggedInUser);
-            //mi.Show();
-        }
-
         public void LoadMessages()
         {
             messages = new List<string>();

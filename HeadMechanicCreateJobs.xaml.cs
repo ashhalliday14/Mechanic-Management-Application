@@ -21,9 +21,9 @@ using System.Data.SqlClient;
 namespace AdvancedProgramming
 {
     /// <summary>
-    /// Interaction logic for CreateJob.xaml
+    /// Interaction logic for HeadMechanicCreateJobs.xaml
     /// </summary>
-    public partial class CreateJob : Window
+    public partial class HeadMechanicCreateJobs : Window
     {
         User loggedInUser;
 
@@ -34,7 +34,7 @@ namespace AdvancedProgramming
         IRepository<User> userContext;
         IRepository<Completed> completedContext;
         IRepository<AssignedTo> assignedToContext;
-        public CreateJob(User u)
+        public HeadMechanicCreateJobs(User u)
         {
             loggedInUser = u;
 
@@ -80,9 +80,8 @@ namespace AdvancedProgramming
         public void Back(object sender, RoutedEventArgs e)
         {
             this.Hide();
-            audit.LogAction("returned to manage jobs page", loggedInUser.ToString());
-            ManageJobs mj = new ManageJobs(loggedInUser);
-            mj.Show();
+            HeadMechanicManageJobs hmmj = new HeadMechanicManageJobs(loggedInUser);
+            hmmj.Show();
         }
 
         private async void Create(object sender, RoutedEventArgs e)
@@ -122,15 +121,15 @@ namespace AdvancedProgramming
                 job.Price = Convert.ToDecimal(txtPrice.Text);
                 job.AssignedTo = cmbAssignedTo.SelectedValue.ToString();
                 job.Completed = cmbCompleted.SelectedValue.ToString();
-                
+
                 jobContext.Insert(job);
                 await jobContext.Commit();
                 audit.LogAction("created a new job", loggedInUser.ToString());
                 MessageBox.Show("Job has been successfully created");
                 audit.LogAction("returned to manage jobs page", loggedInUser.ToString());
-                ManageJobs mj = new ManageJobs(loggedInUser);
+                HeadMechanicManageJobs hmmj = new HeadMechanicManageJobs(loggedInUser);
                 this.Hide();
-                mj.Show();
+                hmmj.Show();
             }
         }
     }

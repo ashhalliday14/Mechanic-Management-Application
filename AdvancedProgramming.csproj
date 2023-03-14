@@ -86,6 +86,9 @@
     <Compile Include="AuditTrail.xaml.cs">
       <DependentUpon>AuditTrail.xaml</DependentUpon>
     </Compile>
+    <Compile Include="CompletedJobs.xaml.cs">
+      <DependentUpon>CompletedJobs.xaml</DependentUpon>
+    </Compile>
     <Compile Include="CreateCustomer.xaml.cs">
       <DependentUpon>CreateCustomer.xaml</DependentUpon>
     </Compile>
@@ -100,6 +103,18 @@
     </Compile>
     <Compile Include="CreateUser.xaml.cs">
       <DependentUpon>CreateUser.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="HeadMechanicCreateJobs.xaml.cs">
+      <DependentUpon>HeadMechanicCreateJobs.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="HeadMechanicCreateTasks.xaml.cs">
+      <DependentUpon>HeadMechanicCreateTasks.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="HeadMechanicManageJobs.xaml.cs">
+      <DependentUpon>HeadMechanicManageJobs.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="HeadMechanicManageTasks.xaml.cs">
+      <DependentUpon>HeadMechanicManageTasks.xaml</DependentUpon>
     </Compile>
     <Compile Include="HeadMechanicMenu.xaml.cs">
       <DependentUpon>HeadMechanicMenu.xaml</DependentUpon>
@@ -118,6 +133,12 @@
     </Compile>
     <Compile Include="ManageTasks.xaml.cs">
       <DependentUpon>ManageTasks.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="MechanicManageJobs.xaml.cs">
+      <DependentUpon>MechanicManageJobs.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="MechanicManageTasks.xaml.cs">
+      <DependentUpon>MechanicManageTasks.xaml</DependentUpon>
     </Compile>
     <Compile Include="MechanicMenu.xaml.cs">
       <DependentUpon>MechanicMenu.xaml</DependentUpon>
@@ -146,9 +167,31 @@
     <Compile Include="Migrations\202303091307111_InvoiceUpdate2.designer.cs">
       <DependentUpon>202303091307111_InvoiceUpdate2.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202303111303555_JobsAndTasksNotes.cs" />
+    <Compile Include="Migrations\202303111303555_JobsAndTasksNotes.designer.cs">
+      <DependentUpon>202303111303555_JobsAndTasksNotes.cs</DependentUpon>
+    </Compile>
     <Compile Include="Models\AssignedTo.cs" />
     <Compile Include="Models\AuditLog.cs" />
     <Compile Include="Models\Completed.cs" />
+    <Compile Include="OfficeAdminCreateCustomers.xaml.cs">
+      <DependentUpon>OfficeAdminCreateCustomers.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="OfficeAdminCreateJobs.xaml.cs">
+      <DependentUpon>OfficeAdminCreateJobs.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="OfficeAdminManageCustomers.xaml.cs">
+      <DependentUpon>OfficeAdminManageCustomers.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="OfficeAdminManageInvoices.xaml.cs">
+      <DependentUpon>OfficeAdminManageInvoices.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="OfficeAdminManageJobs.xaml.cs">
+      <DependentUpon>OfficeAdminManageJobs.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="OfficeAdminManageTasks.xaml.cs">
+      <DependentUpon>OfficeAdminManageTasks.xaml</DependentUpon>
+    </Compile>
     <Compile Include="OfficeAdminMenu.xaml.cs">
       <DependentUpon>OfficeAdminMenu.xaml</DependentUpon>
     </Compile>
@@ -156,6 +199,10 @@
       <DependentUpon>SystemAdminMenu.xaml</DependentUpon>
     </Compile>
     <Page Include="AuditTrail.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="CompletedJobs.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -176,6 +223,22 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="CreateUser.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="HeadMechanicCreateJobs.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="HeadMechanicCreateTasks.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="HeadMechanicManageJobs.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="HeadMechanicManageTasks.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -219,7 +282,39 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="MechanicManageJobs.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="MechanicManageTasks.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="MechanicMenu.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="OfficeAdminCreateCustomers.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="OfficeAdminCreateJobs.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="OfficeAdminManageCustomers.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="OfficeAdminManageInvoices.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="OfficeAdminManageJobs.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="OfficeAdminManageTasks.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -286,6 +381,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202303091307111_InvoiceUpdate2.resx">
       <DependentUpon>202303091307111_InvoiceUpdate2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202303111303555_JobsAndTasksNotes.resx">
+      <DependentUpon>202303111303555_JobsAndTasksNotes.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

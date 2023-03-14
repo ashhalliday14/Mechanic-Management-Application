@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -21,9 +20,9 @@ using System.Data.SqlClient;
 namespace AdvancedProgramming
 {
     /// <summary>
-    /// Interaction logic for CreateJob.xaml
+    /// Interaction logic for HeadMechanicCreateTasks.xaml
     /// </summary>
-    public partial class CreateJob : Window
+    public partial class HeadMechanicCreateTasks : Window
     {
         User loggedInUser;
 
@@ -31,26 +30,30 @@ namespace AdvancedProgramming
 
         IRepository<Customer> customerContext;
         IRepository<Job> jobContext;
+        IRepository<Task> taskContext;
         IRepository<User> userContext;
         IRepository<Completed> completedContext;
         IRepository<AssignedTo> assignedToContext;
-        public CreateJob(User u)
+        public HeadMechanicCreateTasks(User u, string jobID)
         {
             loggedInUser = u;
+
+            MessageBox.Show("Job ID is " + jobID);
 
             this.userContext = ContainerHelper.Container.Resolve<IRepository<User>>();
             this.customerContext = ContainerHelper.Container.Resolve<IRepository<Customer>>();
             this.jobContext = ContainerHelper.Container.Resolve<IRepository<Job>>();
             this.completedContext = ContainerHelper.Container.Resolve<IRepository<Completed>>();
             this.assignedToContext = ContainerHelper.Container.Resolve<IRepository<AssignedTo>>();
+            this.taskContext = ContainerHelper.Container.Resolve<IRepository<Task>>();
 
             InitializeComponent();
 
-            List<Customer> customerList = customerContext.Collection().ToList();
-            cmbCustomer.ItemsSource = customerList;
-            cmbCustomer.DisplayMemberPath = "Name";
-            cmbCustomer.SelectedValuePath = "Id";
-            cmbCustomer.SelectedItem = null;
+            //List<Customer> customerList = customerContext.Collection().ToList();
+            //cmbCustomer.ItemsSource = customerList;
+            //cmbCustomer.DisplayMemberPath = "Name";
+            //cmbCustomer.SelectedValuePath = "Id";
+            //cmbCustomer.SelectedItem = null;
 
             List<User> userList = userContext.Collection().ToList();
             cmbAssignedTo.ItemsSource = userList;
@@ -58,11 +61,17 @@ namespace AdvancedProgramming
             cmbAssignedTo.SelectedValuePath = "Id";
             cmbAssignedTo.SelectedItem = null;
 
-            //List<Job> jobList = jobContext.Collection().ToList();
-            //cmbCompleted.ItemsSource = jobList;
-            //cmbCompleted.DisplayMemberPath = "Name";
-            //cmbCompleted.SelectedValuePath = "Id";
-            //cmbCompleted.SelectedItem = null;
+            List<Job> jobList = jobContext.Collection().ToList();
+            //cmbJob.ItemsSource = jobList;
+            //cmbJob.DisplayMemberPath = "Name";
+            //cmbJob.SelectedValuePath = "Id";
+            //cmbJob.SelectedItem = null;
+
+            List<Task> taskList = taskContext.Collection().ToList();
+            cmbCompleted.ItemsSource = jobList;
+            cmbCompleted.DisplayMemberPath = "Name";
+            cmbCompleted.SelectedValuePath = "Id";
+            cmbCompleted.SelectedItem = null;
 
             List<Completed> completedList = completedContext.Collection().ToList();
             cmbCompleted.ItemsSource = completedList;
@@ -75,26 +84,21 @@ namespace AdvancedProgramming
             cmbAssignedTo.DisplayMemberPath = "Name";
             cmbAssignedTo.SelectedValuePath = "Id";
             cmbAssignedTo.SelectedItem = null;
-        }
 
-        public void Back(object sender, RoutedEventArgs e)
-        {
-            this.Hide();
-            audit.LogAction("returned to manage jobs page", loggedInUser.ToString());
-            ManageJobs mj = new ManageJobs(loggedInUser);
-            mj.Show();
+            txtJobID.Text = jobID;
         }
 
         private async void Create(object sender, RoutedEventArgs e)
         {
-            if (cmbCustomer.SelectedItem == null || txtDescription.Equals("") || txtPrice.Equals("") || cmbAssignedTo.SelectedItem == null || cmbCompleted.SelectedItem == null)
+            if (txtJobID.Equals("") || txtTaskName.Equals("") || txtDescription.Equals("") || txtPrice.Equals("")
+                || cmbAssignedTo.SelectedItem == null || cmbCompleted.SelectedItem == null)
             {
-                MessageBox.Show("Please enter all required fields before creating a new job");
-                audit.LogAction("attempted to create job with missing details", loggedInUser.ToString());
+                MessageBox.Show("Please enter all required fields before creating a new task");
+                audit.LogAction("attempted to create task with missing details", loggedInUser.ToString());
             }
             else
             {
-                const int MaxJobsPerUser = 3;
+                const int MaxTasksPerUser = 10;
                 string userID = cmbAssignedTo.SelectedValue.ToString();
 
                 // Connect to the database and create a command to count the number of jobs assigned to the user
@@ -102,36 +106,42 @@ namespace AdvancedProgramming
                 {
                     connection.Open();
                     SqlCommand countCommand = new SqlCommand(
-                        "SELECT COUNT(*) FROM dbo.Jobs WHERE AssignedTo = @UserID AND Completed = 1",
+                        "SELECT COUNT(*) FROM dbo.Tasks WHERE AssignedTo = @UserID AND Completed = 1",
                         connection);
                     countCommand.Parameters.AddWithValue("@UserID", userID);
 
                     // Execute the command and check the result
                     int jobCount = (int)countCommand.ExecuteScalar();
-                    if (jobCount >= MaxJobsPerUser)
+                    if (jobCount >= MaxTasksPerUser)
                     {
-                        throw new Exception("User has too many jobs assigned.");
-                        audit.LogAction("attempted to create job for user with too many assigned jobs", loggedInUser.ToString());
-                        MessageBox.Show("User has too many jobs assigned. Please select another user");
+                        throw new Exception("User has too many tasks assigned.");
+                        audit.LogAction("attempted to create task for a user with too many tasks assigned", loggedInUser.ToString());
+                        MessageBox.Show("User has too many tasks assigned. Please select another user");
                     }
                 }
+                Task task = new Task();
+                task.JobID = txtJobID.Text;
+                task.TaskName = txtTaskName.Text;
+                task.Description = txtDescription.Text;
+                task.Price = Convert.ToDecimal(txtPrice.Text);
+                task.AssignedTo = cmbAssignedTo.SelectedValue.ToString();
+                task.Completed = cmbCompleted.SelectedValue.ToString();
 
-                Job job = new Job();
-                job.CustomerName = cmbCustomer.SelectedValue.ToString();
-                job.Description = txtDescription.Text;
-                job.Price = Convert.ToDecimal(txtPrice.Text);
-                job.AssignedTo = cmbAssignedTo.SelectedValue.ToString();
-                job.Completed = cmbCompleted.SelectedValue.ToString();
-                
-                jobContext.Insert(job);
-                await jobContext.Commit();
-                audit.LogAction("created a new job", loggedInUser.ToString());
-                MessageBox.Show("Job has been successfully created");
-                audit.LogAction("returned to manage jobs page", loggedInUser.ToString());
-                ManageJobs mj = new ManageJobs(loggedInUser);
-                this.Hide();
-                mj.Show();
+                taskContext.Insert(task);
+                await taskContext.Commit();
+                audit.LogAction("created a new task", loggedInUser.ToString());
+                MessageBox.Show("Task has been successfully created");
+                //ManageTasks mt = new ManageTasks(loggedInUser);
+                //this.Hide();
+                //mt.Show();
             }
+        }
+
+        private void Back(object sender, RoutedEventArgs e)
+        {
+            Hide();
+            HeadMechanicManageJobs hmmj = new HeadMechanicManageJobs(loggedInUser);
+            hmmj.Show();
         }
     }
 }

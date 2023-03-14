@@ -31,7 +31,7 @@
             <DockPanel>
                 <Menu DockPanel.Dock="Top" Height="44" Margin="-30,-190,607,0" >
                     <MenuItem Header="_Menu" >
-                        <MenuItem Header="_Manage Jobs" Click="ManageJobs"/>
+                        <MenuItem Header="_Manage Jobs" Click="HeadMechanicManageJobs"/>
                         <!--<MenuItem Header="_Manage Tasks" Click="ManageTasks"/>-->
                         <MenuItem Header="_Completed Jobs and Tasks"/>
                         <Separator />

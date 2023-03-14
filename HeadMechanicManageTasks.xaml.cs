@@ -10,18 +10,19 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
-using AdvancedProgramming.Contracts;
 using AdvancedProgramming.Models;
 using AdvancedProgramming.Data;
+using AdvancedProgramming.Contracts;
 using Unity;
+using DatabaseExample.Models;
 using System.Data.SqlClient;
 
 namespace AdvancedProgramming
 {
     /// <summary>
-    /// Interaction logic for ManageTasks.xaml
+    /// Interaction logic for HeadMechanicManageTasks.xaml
     /// </summary>
-    public partial class ManageTasks : Window
+    public partial class HeadMechanicManageTasks : Window
     {
         User loggedInUser;
 
@@ -46,7 +47,7 @@ namespace AdvancedProgramming
         Task selectedTask;
         int taskListSize = 0;
         int taskPosition = 0;
-        public ManageTasks(User u, string jobID)
+        public HeadMechanicManageTasks(User u, string jobID)
         {
             loggedInUser = u;
 
@@ -99,13 +100,14 @@ namespace AdvancedProgramming
             txtPrice.Text = selectedTask.Price.ToString();
             cmbAssignedTo.SelectedValue = selectedTask.AssignedTo;
             cmbCompleted.SelectedValue = selectedTask.Completed;
+            txtNotes.Text = selectedTask.Notes;
         }
 
         public void Back(object sender, RoutedEventArgs e)
         {
             this.Hide();
-            ManageJobs ct = new ManageJobs(loggedInUser);
-            ct.Show();
+            HeadMechanicManageJobs hmmj = new HeadMechanicManageJobs(loggedInUser);
+            hmmj.Show();
         }
 
         private void FirstRecord(object sender, RoutedEventArgs e)
@@ -124,6 +126,7 @@ namespace AdvancedProgramming
             txtPrice.Text = selectedTask.Price.ToString();
             cmbAssignedTo.SelectedValue = selectedTask.AssignedTo;
             cmbCompleted.SelectedValue = selectedTask.Completed;
+            txtNotes.Text = selectedTask.Notes;
         }
 
         private void PreviousRecord(object sender, RoutedEventArgs e)
@@ -139,6 +142,7 @@ namespace AdvancedProgramming
                 txtPrice.Text = selectedTask.Price.ToString();
                 cmbAssignedTo.SelectedValue = selectedTask.AssignedTo;
                 cmbCompleted.SelectedValue = selectedTask.Completed;
+                txtNotes.Text = selectedTask.Notes;
             }
         }
 
@@ -155,6 +159,7 @@ namespace AdvancedProgramming
                 txtPrice.Text = selectedTask.Price.ToString();
                 cmbAssignedTo.SelectedValue = selectedTask.AssignedTo;
                 cmbCompleted.SelectedValue = selectedTask.Completed;
+                txtNotes.Text = selectedTask.Notes;
             }
         }
 
@@ -171,6 +176,7 @@ namespace AdvancedProgramming
                 txtPrice.Text = selectedTask.Price.ToString();
                 cmbAssignedTo.SelectedValue = selectedTask.AssignedTo;
                 cmbCompleted.SelectedValue = selectedTask.Completed;
+                txtNotes.Text = selectedTask.Notes;
             }
         }
 

@@ -85,25 +85,18 @@ namespace AdvancedProgramming
             LoadMessages();
         }
 
-        private void ManageSystemUsers(object sender, RoutedEventArgs e)
-        {
-            Hide();
-            ManageSystemUsers msu = new ManageSystemUsers(loggedInUser);
-            msu.Show();
-        }
-
         private void ManageCustomers(object sender, RoutedEventArgs e)
         {
             Hide();
-            ManageCustomers mc = new ManageCustomers(loggedInUser);
-            mc.Show();
+            OfficeAdminManageCustomers oimc = new OfficeAdminManageCustomers(loggedInUser);
+            oimc.Show();
         }
 
         private void ManageJobs(object sender, RoutedEventArgs e)
         {
             Hide();
-            ManageJobs mj = new ManageJobs(loggedInUser);
-            mj.Show();
+            OfficeAdminManageJobs oimj = new OfficeAdminManageJobs(loggedInUser);
+            oimj.Show();
         }
 
         public void LoadMessages()
@@ -281,5 +274,6 @@ namespace AdvancedProgramming
         {
             System.Windows.Application.Current.Shutdown();
         }
+
     }
 }

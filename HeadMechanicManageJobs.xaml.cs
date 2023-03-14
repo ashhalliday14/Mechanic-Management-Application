@@ -21,9 +21,9 @@ using System.Data.SqlClient;
 namespace AdvancedProgramming
 {
     /// <summary>
-    /// Interaction logic for ManageJobs.xaml
+    /// Interaction logic for HeadMechanicManageJobs.xaml
     /// </summary>
-    public partial class ManageJobs : Window
+    public partial class HeadMechanicManageJobs : Window
     {
         //IRepositories for all elements of the job
         IRepository<Customer> customerContext;
@@ -64,10 +64,8 @@ namespace AdvancedProgramming
         Completed seletedCompleted;
         int completedListSize = 0;
         int completedPosition = 0;
-
-        public ManageJobs(User u)
+        public HeadMechanicManageJobs(User u)
         {
-            //set the logged in user
             loggedInUser = u;
 
             this.userContext = ContainerHelper.Container.Resolve<IRepository<User>>();
@@ -130,6 +128,7 @@ namespace AdvancedProgramming
             txtPrice.Text = selectedJob.Price.ToString();
             cmbAssignedTo.SelectedValue = selectedJob.AssignedTo;
             cmbCompleted.SelectedValue = selectedJob.Completed;
+            txtNotes.Text = selectedJob.Notes;
         }
 
         private void FirstRecord(object sender, RoutedEventArgs e)
@@ -149,6 +148,7 @@ namespace AdvancedProgramming
             txtPrice.Text = selectedJob.Price.ToString();
             cmbAssignedTo.SelectedValue = selectedJob.AssignedTo;
             cmbCompleted.SelectedValue = selectedJob.Completed;
+            txtNotes.Text = selectedJob.Notes;
         }
 
         private void PreviousRecord(object sender, RoutedEventArgs e)
@@ -163,6 +163,7 @@ namespace AdvancedProgramming
                 txtPrice.Text = selectedJob.Price.ToString();
                 cmbAssignedTo.SelectedValue = selectedJob.AssignedTo;
                 cmbCompleted.SelectedValue = selectedJob.Completed;
+                txtNotes.Text = selectedJob.Notes;
             }
         }
 
@@ -178,6 +179,7 @@ namespace AdvancedProgramming
                 txtPrice.Text = selectedJob.Price.ToString();
                 cmbAssignedTo.SelectedValue = selectedJob.AssignedTo;
                 cmbCompleted.SelectedValue = selectedJob.Completed;
+                txtNotes.Text = selectedJob.Notes;
             }
         }
 
@@ -193,6 +195,7 @@ namespace AdvancedProgramming
                 txtPrice.Text = selectedJob.Price.ToString();
                 cmbAssignedTo.SelectedValue = selectedJob.AssignedTo;
                 cmbCompleted.SelectedValue = selectedJob.Completed;
+                txtNotes.Text = selectedJob.Notes;
             }
         }
 
@@ -223,7 +226,7 @@ namespace AdvancedProgramming
             selectedJob.Price = Convert.ToDecimal(txtPrice.Text);
             selectedJob.AssignedTo = cmbAssignedTo.SelectedValue.ToString();
             selectedJob.Completed = cmbCompleted.SelectedValue.ToString();
-            
+
             jobContext.Update(selectedJob);
             await jobContext.Commit();
             MessageBox.Show("Record saved successfully!");
@@ -232,8 +235,8 @@ namespace AdvancedProgramming
         private void Back(object sender, RoutedEventArgs e)
         {
             this.Hide();
-            SystemAdminMenu sam = new SystemAdminMenu(loggedInUser);
-            sam.Show();
+            HeadMechanicMenu hmm = new HeadMechanicMenu(loggedInUser);
+            hmm.Show();
         }
 
         private async void DeleteJob(object sender, RoutedEventArgs e)
@@ -250,40 +253,24 @@ namespace AdvancedProgramming
         private void CreateJob(object sender, RoutedEventArgs e)
         {
             this.Hide();
-            CreateJob cj = new CreateJob(loggedInUser);
-            cj.Show();
+            HeadMechanicCreateJobs hmcj = new HeadMechanicCreateJobs(loggedInUser);
+            hmcj.Show();
         }
 
         private void CreateTask(object sender, RoutedEventArgs e)
         {
             string jobID = selectedJob.Id;
             this.Hide();
-            CreateTask ct = new CreateTask(loggedInUser, jobID);
-            ct.Show();
+            HeadMechanicCreateTasks hmct = new HeadMechanicCreateTasks(loggedInUser, jobID);
+            hmct.Show();
         }
 
         private void ViewTasks(object sender, RoutedEventArgs e)
         {
             string jobID = selectedJob.Id;
             this.Hide();
-            ManageTasks mt = new ManageTasks(loggedInUser, jobID);
-            mt.Show();
-        }
-
-        private void CreateInvoice(object sender, RoutedEventArgs e)
-        {
-            string jobID = selectedJob.Id;
-            this.Hide();
-            CreateInvoice ci = new CreateInvoice(loggedInUser, jobID);
-            ci.Show();
-        }
-
-        private void ManageInvoice(object sender, RoutedEventArgs e)
-        {
-            string jobID = selectedJob.Id;
-            this.Hide();
-            ManageInvoices mi = new ManageInvoices(loggedInUser, jobID);
-            mi.Show();
+            HeadMechanicManageTasks hmmt = new HeadMechanicManageTasks(loggedInUser, jobID);
+            hmmt.Show();
         }
     }
 }

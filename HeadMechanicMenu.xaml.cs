@@ -84,11 +84,11 @@ namespace AdvancedProgramming
             LoadMessages();
         }
 
-        private void ManageJobs(object sender, RoutedEventArgs e)
+        private void HeadMechanicManageJobs(object sender, RoutedEventArgs e)
         {
             Hide();
-            ManageJobs mj = new ManageJobs(loggedInUser);
-            mj.Show();
+            HeadMechanicManageJobs hmmj = new HeadMechanicManageJobs(loggedInUser);
+            hmmj.Show();
         }
 
         public void LoadMessages()

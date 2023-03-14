@@ -16,8 +16,9 @@ namespace AdvancedProgramming.Models
         public decimal Price { get; set; }
         public string AssignedTo { get; set; }
         public string Completed { get; set; }
+        public string Notes { get; set; }
 
-        //public Task(string JobID, string TaskName, string Description, decimal Price, string AssignedTo, string Completed)
+        //public Task(string JobID, string TaskName, string Description, decimal Price, string AssignedTo, string Completed, string Notes)
         //{
             //this.JobID = JobID;
             //this.TaskName = TaskName;
@@ -25,6 +26,7 @@ namespace AdvancedProgramming.Models
             //this.Price = Price;
             //this.AssignedTo = AssignedTo;
             //this.Completed = Completed;
+            //this.Notes = Notes;
        //}
     }
 }

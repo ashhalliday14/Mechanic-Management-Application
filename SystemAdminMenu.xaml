@@ -34,9 +34,7 @@
                         <MenuItem Header="_Manage System Users" Click="ManageSystemUsers" />
                         <MenuItem Header="_Manage Customers" Click="ManageCustomers"/>
                         <MenuItem Header="_Manage Jobs" Click="ManageJobs"/>
-                        <MenuItem Header="_Manage Invoices" Click="ManageInvoices"/>
-                        <MenuItem Header="_Completed Jobs"/>
-                        <MenuItem Header="_Completed Tasks"/>
+                        <MenuItem Header="_Completed Jobs" Click="CompletedJobs"/>
                         <MenuItem Header="_Audit Trail" Click="AuditTrail"/>
                         <Separator />
                         <MenuItem Header="_Logout" Click="Exit"/>

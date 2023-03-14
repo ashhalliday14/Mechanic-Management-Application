@@ -23,6 +23,7 @@ namespace AdvancedProgramming
     public partial class CreateUser : Window
     {
         User loggedInUser;
+        AuditLog audit = new AuditLog();
         IRepository<User> userContext;
         IRepository<Role> roleContext;
         IRepository<AssignedTo> assignedToContext;
@@ -46,6 +47,7 @@ namespace AdvancedProgramming
         public void Back(object sender, RoutedEventArgs e)
         {
             this.Hide();
+            audit.LogAction("returned to manage system users page", loggedInUser.ToString());
             ManageSystemUsers msu = new ManageSystemUsers(loggedInUser);
             msu.Show();
         }
@@ -55,6 +57,7 @@ namespace AdvancedProgramming
             if (txtUsername.Equals("") || txtPassword.Equals("") || cmbRole.SelectedItem == null)
             {
                 MessageBox.Show("Please enter all required fields before creating a new user");
+                audit.LogAction("attempted to create user with missing details", loggedInUser.ToString());
             }
             else
             {
@@ -71,8 +74,10 @@ namespace AdvancedProgramming
 
                 await userContext.Commit();
                 await assignedToContext.Commit();
+                audit.LogAction("created a new user", loggedInUser.ToString());
                 MessageBox.Show("User has been successfully created");
                 ManageSystemUsers msu = new ManageSystemUsers(loggedInUser);
+                audit.LogAction("returned to manage system users page", loggedInUser.ToString());
                 this.Hide();
                 msu.Show();
             }

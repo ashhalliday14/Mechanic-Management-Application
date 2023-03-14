@@ -14,43 +14,19 @@ using AdvancedProgramming.Contracts;
 using AdvancedProgramming.Models;
 using AdvancedProgramming.Data;
 using Unity;
-using DatabaseExample.Models;
 
 namespace AdvancedProgramming
 {
     /// <summary>
-    /// Interaction logic for MechanicMenu.xaml
+    /// Interaction logic for OfficeAdminManageTasks.xaml
     /// </summary>
-    public partial class MechanicMenu : Window
+    public partial class OfficeAdminManageTasks : Window
     {
         User loggedInUser;
-        List<string> messages;
 
-        //IRepositories for all elements of the job
-        IRepository<Customer> customerContext;
-        IRepository<Job> jobContext;
-        IRepository<User> userContext;
         IRepository<AssignedTo> assignedToContext;
         IRepository<Completed> completedContext;
         IRepository<Task> taskContext;
-
-        //create a list for customers
-        List<Customer> customersList;
-        Customer selectedCustomer;
-        int customerListsSize = 0;
-        int customerPosition = 0;
-
-        //create a list for jobs
-        List<Job> jobsList;
-        Job selectedJob;
-        int jobListSize = 0;
-        int jobPosition = 0;
-
-        //create a list for users
-        List<User> usersList;
-        User selectedUser;
-        int userListSize = 0;
-        int userPosition = 0;
 
         //create a list for assigned to status
         List<AssignedTo> assignedTosList;
@@ -58,66 +34,31 @@ namespace AdvancedProgramming
         int assignedToListSize = 0;
         int assignedToPosition = 0;
 
-        //create a list for completed statuss
+        //create a list for completed status
         List<Completed> completedsList;
         Completed seletedCompleted;
         int completedListSize = 0;
         int completedPosition = 0;
 
-        //create a list for tasks
+        //create a list for task
         List<Task> tasksList;
         Task selectedTask;
         int taskListSize = 0;
         int taskPosition = 0;
-
-        public MechanicMenu(User u)
+        public OfficeAdminManageTasks(User u, string jobID)
         {
             loggedInUser = u;
 
-            this.userContext = ContainerHelper.Container.Resolve<IRepository<User>>();
-            this.customerContext = ContainerHelper.Container.Resolve<IRepository<Customer>>();
-            this.jobContext = ContainerHelper.Container.Resolve<IRepository<Job>>();
             this.assignedToContext = ContainerHelper.Container.Resolve<IRepository<AssignedTo>>();
             this.completedContext = ContainerHelper.Container.Resolve<IRepository<Completed>>();
             this.taskContext = ContainerHelper.Container.Resolve<IRepository<Task>>();
 
+            MessageBox.Show("Job ID is " + jobID);
             InitializeComponent();
-            LoadMessages();
+            RefreshData(jobID);
         }
 
-        private void ManageJobs(object sender, RoutedEventArgs e)
-        {
-            Hide();
-            MechanicManageJobs mmj = new MechanicManageJobs(loggedInUser);
-            mmj.Show();
-        }
-
-        public void LoadMessages()
-        {
-            messages = new List<string>();
-            messages.Add("If you let your head get too big, it’ll break your neck. Elvis Presley");
-            messages.Add("Bad decisions make good stories.s – Ellis Vidler");
-            messages.Add("If the world didn’t suck we’d all fly into space. – Unknown");
-            messages.Add("A diamond is merely a lump of coal that did well under pressure. – Unknown");
-            messages.Add("Trying is the first step toward failure. – Homer Simpson");
-            messages.Add("Hard work never killed anybody, but why take a chance? — Edgar Bergen");
-            messages.Add("Beat the 5 o'clock rush, leave work at noon. — Anonymous");
-            messages.Add("I hate when I lose things at work, like pens, papers, sanity and dreams. – Anonymous");
-            messages.Add("If at first you don't succeed, then skydiving definitely isn't for you. – Steven Wright");
-
-            var random = new Random();
-            int index = random.Next(messages.Count);
-            lblMessage.Text = messages[index];
-        }
-
-        private void RefreshMessage(object sender, RoutedEventArgs e)
-        {
-            var random = new Random();
-            int index = random.Next(messages.Count);
-            lblMessage.Text = messages[index];
-        }
-
-        private void RefreshTasks(object sender, RoutedEventArgs e)
+        private void RefreshData(string jobID)
         {
             List<AssignedTo> assignedToList = assignedToContext.Collection().ToList();
             cmbAssignedTo.ItemsSource = assignedToList;
@@ -151,10 +92,37 @@ namespace AdvancedProgramming
             taskPosition = tasksList.IndexOf(selectedTask);
 
             //set values of fields 
+            txtJobID.Text = jobID;
             txtTaskName.Text = selectedTask.TaskName;
             txtDescription.Text = selectedTask.Description;
-            cmbAssignedTo.SelectedValue = selectedAssignedTo.Id;
-            cmbCompleted.SelectedValue = seletedCompleted.Id;
+            txtPrice.Text = selectedTask.Price.ToString();
+            cmbAssignedTo.SelectedValue = selectedTask.AssignedTo;
+            cmbCompleted.SelectedValue = selectedTask.Completed;
+        }
+
+        public void Back(object sender, RoutedEventArgs e)
+        {
+            this.Hide();
+            OfficeAdminManageJobs oimj = new OfficeAdminManageJobs(loggedInUser);
+            oimj.Show();
+        }
+
+        private void FirstRecord(object sender, RoutedEventArgs e)
+        {
+            selectedTask = tasksList.FirstOrDefault();
+            selectedAssignedTo = assignedTosList.FirstOrDefault();
+            seletedCompleted = completedsList.FirstOrDefault();
+
+            taskPosition = tasksList.IndexOf(selectedTask);
+            assignedToPosition = assignedTosList.IndexOf(selectedAssignedTo);
+            completedPosition = completedsList.IndexOf(seletedCompleted);
+
+            txtJobID.Text = selectedTask.JobID;
+            txtTaskName.Text = selectedTask.TaskName;
+            txtDescription.Text = selectedTask.Description;
+            txtPrice.Text = selectedTask.Price.ToString();
+            cmbAssignedTo.SelectedValue = selectedTask.AssignedTo;
+            cmbCompleted.SelectedValue = selectedTask.Completed;
         }
 
         private void PreviousRecord(object sender, RoutedEventArgs e)
@@ -164,10 +132,12 @@ namespace AdvancedProgramming
                 selectedTask = tasksList[taskPosition - 1];
                 taskPosition = tasksList.IndexOf(selectedTask);
 
+                txtJobID.Text = selectedTask.JobID;
                 txtTaskName.Text = selectedTask.TaskName;
                 txtDescription.Text = selectedTask.Description;
-                cmbAssignedTo.SelectedValue = selectedAssignedTo.Id;
-                cmbCompleted.SelectedValue = seletedCompleted.Id;
+                txtPrice.Text = selectedTask.Price.ToString();
+                cmbAssignedTo.SelectedValue = selectedTask.AssignedTo;
+                cmbCompleted.SelectedValue = selectedTask.Completed;
             }
         }
 
@@ -178,16 +148,30 @@ namespace AdvancedProgramming
                 taskPosition = taskListSize - 1;
                 selectedTask = tasksList[taskPosition];
 
+                txtJobID.Text = selectedTask.JobID;
                 txtTaskName.Text = selectedTask.TaskName;
                 txtDescription.Text = selectedTask.Description;
-                cmbAssignedTo.SelectedValue = selectedAssignedTo.Id;
-                cmbCompleted.SelectedValue = seletedCompleted.Id;
+                txtPrice.Text = selectedTask.Price.ToString();
+                cmbAssignedTo.SelectedValue = selectedTask.AssignedTo;
+                cmbCompleted.SelectedValue = selectedTask.Completed;
             }
         }
 
-        private void Exit(object sender, RoutedEventArgs e)
+        private void LastRecord(object sender, RoutedEventArgs e)
         {
-            System.Windows.Application.Current.Shutdown();
+            if (taskPosition != taskListSize - 1)
+            {
+                taskPosition++;
+                selectedTask = tasksList[taskPosition];
+
+                txtJobID.Text = selectedTask.JobID;
+                txtTaskName.Text = selectedTask.TaskName;
+                txtDescription.Text = selectedTask.Description;
+                txtPrice.Text = selectedTask.Price.ToString();
+                cmbAssignedTo.SelectedValue = selectedTask.AssignedTo;
+                cmbCompleted.SelectedValue = selectedTask.Completed;
+            }
         }
+
     }
 }

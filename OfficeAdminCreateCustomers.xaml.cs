@@ -20,15 +20,14 @@ using DatabaseExample.Models;
 namespace AdvancedProgramming
 {
     /// <summary>
-    /// Interaction logic for CreateCustomer.xaml
+    /// Interaction logic for OfficeAdminCreateCustomers.xaml
     /// </summary>
-    public partial class CreateCustomer : Window
+    public partial class OfficeAdminCreateCustomers : Window
     {
         User loggedInUser;
-        AuditLog audit = new AuditLog();
 
         IRepository<Customer> customerContext;
-        public CreateCustomer(User u)
+        public OfficeAdminCreateCustomers(User u)
         {
             loggedInUser = u;
 
@@ -40,9 +39,8 @@ namespace AdvancedProgramming
         public void Back(object sender, RoutedEventArgs e)
         {
             this.Hide();
-            audit.LogAction("returned to manage customers page", loggedInUser.ToString());
-            ManageCustomers mc = new ManageCustomers(loggedInUser);
-            mc.Show();
+            OfficeAdminMenu oim = new OfficeAdminMenu(loggedInUser);
+            oim.Show();
         }
 
         private async void Create(object sender, RoutedEventArgs e)
@@ -61,10 +59,9 @@ namespace AdvancedProgramming
                 customerContext.Insert(customer);
                 await customerContext.Commit();
                 MessageBox.Show("Customer has been successfully created");
-                audit.LogAction("created a new customer", loggedInUser.ToString());
-                ManageCustomers mc = new ManageCustomers(loggedInUser);
+                OfficeAdminManageCustomers oimc = new OfficeAdminManageCustomers(loggedInUser);
                 this.Hide();
-                mc.Show();
+                oimc.Show();
             }
         }
     }

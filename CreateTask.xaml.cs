@@ -15,6 +15,7 @@ using AdvancedProgramming.Data;
 using AdvancedProgramming.Contracts;
 using Unity;
 using DatabaseExample.Models;
+using System.Data.SqlClient;
 
 namespace AdvancedProgramming
 {
@@ -24,6 +25,8 @@ namespace AdvancedProgramming
     public partial class CreateTask : Window
     {
         User loggedInUser;
+
+        AuditLog audit = new AuditLog();
 
         IRepository<Customer> customerContext;
         IRepository<Job> jobContext;
@@ -91,9 +94,31 @@ namespace AdvancedProgramming
                 || cmbAssignedTo.SelectedItem == null || cmbCompleted.SelectedItem == null)
             {
                 MessageBox.Show("Please enter all required fields before creating a new task");
+                audit.LogAction("attempted to create task with missing details", loggedInUser.ToString());
             }
             else
             {
+                const int MaxTasksPerUser = 10;
+                string userID = cmbAssignedTo.SelectedValue.ToString();
+
+                // Connect to the database and create a command to count the number of jobs assigned to the user
+                using (SqlConnection connection = new SqlConnection(@"Data Source=localhost\SQLEXPRESS;Initial Catalog=AdvancedProgramming;Integrated Security=True"))
+                {
+                    connection.Open();
+                    SqlCommand countCommand = new SqlCommand(
+                        "SELECT COUNT(*) FROM dbo.Tasks WHERE AssignedTo = @UserID AND Completed = 1",
+                        connection);
+                    countCommand.Parameters.AddWithValue("@UserID", userID);
+
+                    // Execute the command and check the result
+                    int jobCount = (int)countCommand.ExecuteScalar();
+                    if (jobCount >= MaxTasksPerUser)
+                    {
+                        throw new Exception("User has too many tasks assigned.");
+                        audit.LogAction("attempted to create task for a user with too many tasks assigned", loggedInUser.ToString());
+                        MessageBox.Show("User has too many tasks assigned. Please select another user");
+                    }
+                }
                 Task task = new Task();
                 task.JobID = txtJobID.Text;
                 task.TaskName = txtTaskName.Text;
@@ -104,6 +129,7 @@ namespace AdvancedProgramming
 
                 taskContext.Insert(task);
                 await taskContext.Commit();
+                audit.LogAction("created a new task", loggedInUser.ToString());
                 MessageBox.Show("Task has been successfully created");
                 //ManageTasks mt = new ManageTasks(loggedInUser);
                 //this.Hide();
@@ -114,15 +140,9 @@ namespace AdvancedProgramming
         private void Back(object sender, RoutedEventArgs e)
         {
             Hide();
+            audit.LogAction("returned to manage jobs page", loggedInUser.ToString());
             ManageJobs mj = new ManageJobs(loggedInUser);
             mj.Show();
-        }
-
-        private void create(object sender, RoutedEventArgs e)
-        {
-            //Hide();
-            //ManageJobs mj = new ManageJobs(loggedInUser);
-            //mj.Show();
         }
     }
 }

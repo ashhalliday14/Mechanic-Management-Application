@@ -16,14 +16,13 @@ using AdvancedProgramming.Data;
 using AdvancedProgramming.Contracts;
 using Unity;
 using DatabaseExample.Models;
-using System.Data.SqlClient;
 
 namespace AdvancedProgramming
 {
     /// <summary>
-    /// Interaction logic for ManageJobs.xaml
+    /// Interaction logic for MechanicManageJobs.xaml
     /// </summary>
-    public partial class ManageJobs : Window
+    public partial class MechanicManageJobs : Window
     {
         //IRepositories for all elements of the job
         IRepository<Customer> customerContext;
@@ -64,10 +63,8 @@ namespace AdvancedProgramming
         Completed seletedCompleted;
         int completedListSize = 0;
         int completedPosition = 0;
-
-        public ManageJobs(User u)
+        public MechanicManageJobs(User u)
         {
-            //set the logged in user
             loggedInUser = u;
 
             this.userContext = ContainerHelper.Container.Resolve<IRepository<User>>();
@@ -130,6 +127,7 @@ namespace AdvancedProgramming
             txtPrice.Text = selectedJob.Price.ToString();
             cmbAssignedTo.SelectedValue = selectedJob.AssignedTo;
             cmbCompleted.SelectedValue = selectedJob.Completed;
+            txtNotes.Text = selectedJob.Notes;
         }
 
         private void FirstRecord(object sender, RoutedEventArgs e)
@@ -149,6 +147,7 @@ namespace AdvancedProgramming
             txtPrice.Text = selectedJob.Price.ToString();
             cmbAssignedTo.SelectedValue = selectedJob.AssignedTo;
             cmbCompleted.SelectedValue = selectedJob.Completed;
+            txtNotes.Text = selectedJob.Notes;
         }
 
         private void PreviousRecord(object sender, RoutedEventArgs e)
@@ -163,6 +162,7 @@ namespace AdvancedProgramming
                 txtPrice.Text = selectedJob.Price.ToString();
                 cmbAssignedTo.SelectedValue = selectedJob.AssignedTo;
                 cmbCompleted.SelectedValue = selectedJob.Completed;
+                txtNotes.Text = selectedJob.Notes;
             }
         }
 
@@ -178,6 +178,7 @@ namespace AdvancedProgramming
                 txtPrice.Text = selectedJob.Price.ToString();
                 cmbAssignedTo.SelectedValue = selectedJob.AssignedTo;
                 cmbCompleted.SelectedValue = selectedJob.Completed;
+                txtNotes.Text = selectedJob.Notes;
             }
         }
 
@@ -193,37 +194,14 @@ namespace AdvancedProgramming
                 txtPrice.Text = selectedJob.Price.ToString();
                 cmbAssignedTo.SelectedValue = selectedJob.AssignedTo;
                 cmbCompleted.SelectedValue = selectedJob.Completed;
+                txtNotes.Text = selectedJob.Notes;
             }
         }
 
         private async void SaveRecord(object sender, RoutedEventArgs e)
         {
-            const int MaxJobsPerUser = 3;
-            string userID = cmbAssignedTo.SelectedValue.ToString();
+            txtNotes.Text = selectedJob.Notes;
 
-            // Connect to the database and create a command to count the number of jobs assigned to the user
-            using (SqlConnection connection = new SqlConnection(@"Data Source=localhost\SQLEXPRESS;Initial Catalog=AdvancedProgramming;Integrated Security=True"))
-            {
-                connection.Open();
-                SqlCommand countCommand = new SqlCommand(
-                    "SELECT COUNT(*) FROM dbo.Jobs WHERE AssignedTo = @UserID AND Completed = 1",
-                    connection);
-                countCommand.Parameters.AddWithValue("@UserID", userID);
-
-                // Execute the command and check the result
-                int jobCount = (int)countCommand.ExecuteScalar();
-                if (jobCount >= MaxJobsPerUser)
-                {
-                    throw new Exception("User has too many jobs assigned.");
-                    MessageBox.Show("User has too many jobs assigned. Please select another user");
-                }
-            }
-            selectedJob.CustomerName = cmbCustomer.SelectedValue.ToString();
-            selectedJob.Description = txtDescription.Text;
-            selectedJob.Price = Convert.ToDecimal(txtPrice.Text);
-            selectedJob.AssignedTo = cmbAssignedTo.SelectedValue.ToString();
-            selectedJob.Completed = cmbCompleted.SelectedValue.ToString();
-            
             jobContext.Update(selectedJob);
             await jobContext.Commit();
             MessageBox.Show("Record saved successfully!");
@@ -232,58 +210,16 @@ namespace AdvancedProgramming
         private void Back(object sender, RoutedEventArgs e)
         {
             this.Hide();
-            SystemAdminMenu sam = new SystemAdminMenu(loggedInUser);
-            sam.Show();
-        }
-
-        private async void DeleteJob(object sender, RoutedEventArgs e)
-        {
-            if (MessageBox.Show("Are you sure you want to delete this job?", "Confirm Delete", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes)
-            {
-                jobContext.Delete(selectedJob.Id);
-                await jobContext.Commit();
-                MessageBox.Show("Job has been successfully deleted!");
-                RefreshData();
-            }
-        }
-
-        private void CreateJob(object sender, RoutedEventArgs e)
-        {
-            this.Hide();
-            CreateJob cj = new CreateJob(loggedInUser);
-            cj.Show();
-        }
-
-        private void CreateTask(object sender, RoutedEventArgs e)
-        {
-            string jobID = selectedJob.Id;
-            this.Hide();
-            CreateTask ct = new CreateTask(loggedInUser, jobID);
-            ct.Show();
+            MechanicMenu hmm = new MechanicMenu(loggedInUser);
+            hmm.Show();
         }
 
         private void ViewTasks(object sender, RoutedEventArgs e)
         {
             string jobID = selectedJob.Id;
             this.Hide();
-            ManageTasks mt = new ManageTasks(loggedInUser, jobID);
-            mt.Show();
-        }
-
-        private void CreateInvoice(object sender, RoutedEventArgs e)
-        {
-            string jobID = selectedJob.Id;
-            this.Hide();
-            CreateInvoice ci = new CreateInvoice(loggedInUser, jobID);
-            ci.Show();
-        }
-
-        private void ManageInvoice(object sender, RoutedEventArgs e)
-        {
-            string jobID = selectedJob.Id;
-            this.Hide();
-            ManageInvoices mi = new ManageInvoices(loggedInUser, jobID);
-            mi.Show();
+            MechanicManageTasks hmmt = new MechanicManageTasks(loggedInUser, jobID);
+            hmmt.Show();
         }
     }
 }

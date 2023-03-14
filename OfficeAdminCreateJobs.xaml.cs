@@ -15,15 +15,15 @@ using AdvancedProgramming.Models;
 using AdvancedProgramming.Data;
 using AdvancedProgramming.Contracts;
 using Unity;
-using DatabaseExample.Models;
 using System.Data.SqlClient;
+using DatabaseExample.Models;
 
 namespace AdvancedProgramming
 {
     /// <summary>
-    /// Interaction logic for CreateJob.xaml
+    /// Interaction logic for OfficeAdminCreateJobs.xaml
     /// </summary>
-    public partial class CreateJob : Window
+    public partial class OfficeAdminCreateJobs : Window
     {
         User loggedInUser;
 
@@ -34,7 +34,7 @@ namespace AdvancedProgramming
         IRepository<User> userContext;
         IRepository<Completed> completedContext;
         IRepository<AssignedTo> assignedToContext;
-        public CreateJob(User u)
+        public OfficeAdminCreateJobs(User u)
         {
             loggedInUser = u;
 
@@ -80,9 +80,8 @@ namespace AdvancedProgramming
         public void Back(object sender, RoutedEventArgs e)
         {
             this.Hide();
-            audit.LogAction("returned to manage jobs page", loggedInUser.ToString());
-            ManageJobs mj = new ManageJobs(loggedInUser);
-            mj.Show();
+            OfficeAdminManageJobs oimj = new OfficeAdminManageJobs(loggedInUser);
+            oimj.Show();
         }
 
         private async void Create(object sender, RoutedEventArgs e)
@@ -122,15 +121,15 @@ namespace AdvancedProgramming
                 job.Price = Convert.ToDecimal(txtPrice.Text);
                 job.AssignedTo = cmbAssignedTo.SelectedValue.ToString();
                 job.Completed = cmbCompleted.SelectedValue.ToString();
-                
+
                 jobContext.Insert(job);
                 await jobContext.Commit();
                 audit.LogAction("created a new job", loggedInUser.ToString());
                 MessageBox.Show("Job has been successfully created");
                 audit.LogAction("returned to manage jobs page", loggedInUser.ToString());
-                ManageJobs mj = new ManageJobs(loggedInUser);
+                HeadMechanicManageJobs oimj = new HeadMechanicManageJobs(loggedInUser);
                 this.Hide();
-                mj.Show();
+                oimj.Show();
             }
         }
     }

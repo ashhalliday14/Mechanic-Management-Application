@@ -26,6 +26,8 @@ namespace AdvancedProgramming
     {
         User loggedInUser;
 
+        AuditLog audit = new AuditLog();
+
         IRepository<Invoice> invoiceContext;
         IRepository<Customer> customerContext;
         public CreateInvoice(User u, string jobID)
@@ -67,6 +69,7 @@ namespace AdvancedProgramming
 
                 invoiceContext.Insert(invoice);
                 await invoiceContext.Commit();
+                audit.LogAction("created a new invoice", loggedInUser.ToString());
                 MessageBox.Show("Invoice has been successfully created");
                 //ManageInvoices mi = new ManageInvoices(loggedInUser);
                 //this.Hide();
@@ -78,6 +81,7 @@ namespace AdvancedProgramming
         {
             string jobID = txtJobID.Text;
             Hide();
+            audit.LogAction("returned to manage invoices page", loggedInUser.ToString());
             ManageInvoices mi = new ManageInvoices(loggedInUser, jobID);
             mi.Show();
         }
