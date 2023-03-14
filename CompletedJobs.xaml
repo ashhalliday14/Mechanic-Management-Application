@@ -46,6 +46,7 @@
             <ComboBox x:Name="cmbCustomer" HorizontalAlignment="Left" Margin="257,25,0,0" VerticalAlignment="Top" Width="272"/>
             <ComboBox x:Name="cmbAssignedTo" HorizontalAlignment="Left" Margin="257,155,0,0" VerticalAlignment="Top" Width="272"/>
             <ComboBox x:Name="cmbCompleted" HorizontalAlignment="Left" Margin="257,199,0,0" VerticalAlignment="Top" Width="272"/>
+            <Button x:Name="btnViewTasks" Content="View Tasks" HorizontalAlignment="Left" Margin="624,112,0,128" Width="88" FontSize="10" Height="Auto" Click="ViewTasks"/>
             <!--<Button x:Name="btnViewTasks" Content="View Tasks" HorizontalAlignment="Left" Margin="624,119,0,121" Width="88" FontSize="10" Height="Auto" Click="ViewTasks"/>-->
 
         </Grid>

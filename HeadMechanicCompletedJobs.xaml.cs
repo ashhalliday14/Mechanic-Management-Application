@@ -177,5 +177,14 @@ namespace AdvancedProgramming
             audit.LogAction("navigated to head mechanic menu", loggedInUser.ToString());
             hmm.Show();
         }
+
+        private void ViewTasks(object sender, RoutedEventArgs e)
+        {
+            string jobID = selectedJob.Id;
+            this.Hide();
+            HeadMechanicCompletedTasks hmct = new HeadMechanicCompletedTasks(loggedInUser, jobID);
+            audit.LogAction("entered completed tasks page", loggedInUser.ToString());
+            hmct.Show();
+        }
     }
 }

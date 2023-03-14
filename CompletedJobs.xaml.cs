@@ -178,5 +178,14 @@ namespace AdvancedProgramming
                 cmbCompleted.SelectedValue = selectedJob.Completed;
             }
         }
+
+        private void ViewTasks(object sender, RoutedEventArgs e)
+        {
+            string jobID = selectedJob.Id;
+            this.Hide();
+            CompletedTasks mt = new CompletedTasks(loggedInUser, jobID);
+            audit.LogAction("entered completed tasks page", loggedInUser.ToString());
+            mt.Show();
+        }
     }
 }
