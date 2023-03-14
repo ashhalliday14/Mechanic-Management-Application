@@ -110,27 +110,29 @@ namespace AdvancedProgramming
                     int jobCount = (int)countCommand.ExecuteScalar();
                     if (jobCount >= MaxJobsPerUser)
                     {
-                        throw new Exception("User has too many jobs assigned.");
+                        //throw new Exception("User has too many jobs assigned.");
                         audit.LogAction("attempted to create job for user with too many assigned jobs", loggedInUser.ToString());
                         MessageBox.Show("User has too many jobs assigned. Please select another user");
                     }
-                }
+                    else
+                    {
+                        Job job = new Job();
+                        job.CustomerName = cmbCustomer.SelectedValue.ToString();
+                        job.Description = txtDescription.Text;
+                        job.Price = Convert.ToDecimal(txtPrice.Text);
+                        job.AssignedTo = cmbAssignedTo.SelectedValue.ToString();
+                        job.Completed = cmbCompleted.SelectedValue.ToString();
 
-                Job job = new Job();
-                job.CustomerName = cmbCustomer.SelectedValue.ToString();
-                job.Description = txtDescription.Text;
-                job.Price = Convert.ToDecimal(txtPrice.Text);
-                job.AssignedTo = cmbAssignedTo.SelectedValue.ToString();
-                job.Completed = cmbCompleted.SelectedValue.ToString();
-                
-                jobContext.Insert(job);
-                await jobContext.Commit();
-                audit.LogAction("created a new job", loggedInUser.ToString());
-                MessageBox.Show("Job has been successfully created");
-                audit.LogAction("returned to manage jobs page", loggedInUser.ToString());
-                ManageJobs mj = new ManageJobs(loggedInUser);
-                this.Hide();
-                mj.Show();
+                        jobContext.Insert(job);
+                        await jobContext.Commit();
+                        audit.LogAction("created a new job", loggedInUser.ToString());
+                        MessageBox.Show("Job has been successfully created");
+                        audit.LogAction("returned to manage jobs page", loggedInUser.ToString());
+                        ManageJobs mj = new ManageJobs(loggedInUser);
+                        this.Hide();
+                        mj.Show();
+                    }
+                }
             }
         }
     }

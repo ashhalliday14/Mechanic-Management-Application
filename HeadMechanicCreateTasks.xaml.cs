@@ -114,26 +114,26 @@ namespace AdvancedProgramming
                     int jobCount = (int)countCommand.ExecuteScalar();
                     if (jobCount >= MaxTasksPerUser)
                     {
-                        throw new Exception("User has too many tasks assigned.");
+                        //throw new Exception("User has too many tasks assigned.");
                         audit.LogAction("attempted to create task for a user with too many tasks assigned", loggedInUser.ToString());
                         MessageBox.Show("User has too many tasks assigned. Please select another user");
                     }
-                }
-                Task task = new Task();
-                task.JobID = txtJobID.Text;
-                task.TaskName = txtTaskName.Text;
-                task.Description = txtDescription.Text;
-                task.Price = Convert.ToDecimal(txtPrice.Text);
-                task.AssignedTo = cmbAssignedTo.SelectedValue.ToString();
-                task.Completed = cmbCompleted.SelectedValue.ToString();
+                    else
+                    {
+                        Task task = new Task();
+                        task.JobID = txtJobID.Text;
+                        task.TaskName = txtTaskName.Text;
+                        task.Description = txtDescription.Text;
+                        task.Price = Convert.ToDecimal(txtPrice.Text);
+                        task.AssignedTo = cmbAssignedTo.SelectedValue.ToString();
+                        task.Completed = cmbCompleted.SelectedValue.ToString();
 
-                taskContext.Insert(task);
-                await taskContext.Commit();
-                audit.LogAction("created a new task", loggedInUser.ToString());
-                MessageBox.Show("Task has been successfully created");
-                //ManageTasks mt = new ManageTasks(loggedInUser);
-                //this.Hide();
-                //mt.Show();
+                        taskContext.Insert(task);
+                        await taskContext.Commit();
+                        audit.LogAction("created a new task", loggedInUser.ToString());
+                        MessageBox.Show("Task has been successfully created");
+                    }
+                }
             }
         }
 
@@ -141,6 +141,7 @@ namespace AdvancedProgramming
         {
             Hide();
             HeadMechanicManageJobs hmmj = new HeadMechanicManageJobs(loggedInUser);
+            audit.LogAction("returned to manage jobs page", loggedInUser.ToString());
             hmmj.Show();
         }
     }

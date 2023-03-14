@@ -104,6 +104,9 @@
     <Compile Include="CreateUser.xaml.cs">
       <DependentUpon>CreateUser.xaml</DependentUpon>
     </Compile>
+    <Compile Include="HeadMechanicCompletedJobs.xaml.cs">
+      <DependentUpon>HeadMechanicCompletedJobs.xaml</DependentUpon>
+    </Compile>
     <Compile Include="HeadMechanicCreateJobs.xaml.cs">
       <DependentUpon>HeadMechanicCreateJobs.xaml</DependentUpon>
     </Compile>
@@ -174,6 +177,7 @@
     <Compile Include="Models\AssignedTo.cs" />
     <Compile Include="Models\AuditLog.cs" />
     <Compile Include="Models\Completed.cs" />
+    <Compile Include="Models\CompletedJob.cs" />
     <Compile Include="OfficeAdminCreateCustomers.xaml.cs">
       <DependentUpon>OfficeAdminCreateCustomers.xaml</DependentUpon>
     </Compile>
@@ -223,6 +227,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="CreateUser.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="HeadMechanicCompletedJobs.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

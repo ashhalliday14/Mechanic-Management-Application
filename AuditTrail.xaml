@@ -32,7 +32,9 @@
 
             <Button Content="Back" HorizontalAlignment="Left" Margin="0,22,0,0" VerticalAlignment="Top" Width="56" FontSize="10" Height="28" Click="Back"/>
             <Button x:Name="btnSave" Content="View Audit Trail" HorizontalAlignment="Left" Margin="602,19,0,221" Width="110" FontSize="10" Height="Auto" Click="ViewAuditTrail"/>
-            <TextBlock Name="txtAuditTrail" HorizontalAlignment="Left" Margin="73,32,0,-21" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Height="260" Width="524"/>
+            <ScrollViewer VerticalScrollBarVisibility="Auto" Margin="80,22,0,0" HorizontalAlignment="Left" Width="507">
+                <TextBlock x:Name="txtAuditTrail" HorizontalAlignment="Left" TextWrapping="Wrap" VerticalAlignment="Top" Height="249" Width="484"/>
+            </ScrollViewer>
         </Grid>
     </Grid>
 </Window>

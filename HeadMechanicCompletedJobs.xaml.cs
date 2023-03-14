@@ -16,13 +16,14 @@ using AdvancedProgramming.Data;
 using AdvancedProgramming.Contracts;
 using Unity;
 using DatabaseExample.Models;
+using System.Data.SqlClient;
 
 namespace AdvancedProgramming
 {
     /// <summary>
-    /// Interaction logic for MechanicManageJobs.xaml
+    /// Interaction logic for HeadMechanicCompletedJobs.xaml
     /// </summary>
-    public partial class MechanicManageJobs : Window
+    public partial class HeadMechanicCompletedJobs : Window
     {
         //IRepositories for all elements of the job
         IRepository<Customer> customerContext;
@@ -65,9 +66,11 @@ namespace AdvancedProgramming
         Completed seletedCompleted;
         int completedListSize = 0;
         int completedPosition = 0;
-        public MechanicManageJobs(User u)
+        public HeadMechanicCompletedJobs(User u)
         {
             loggedInUser = u;
+
+            AuditLog audit = new AuditLog();
 
             this.userContext = ContainerHelper.Container.Resolve<IRepository<User>>();
             this.customerContext = ContainerHelper.Container.Resolve<IRepository<Customer>>();
@@ -79,7 +82,6 @@ namespace AdvancedProgramming
             RefreshData();
         }
 
-        //refresh data from the db
         private void RefreshData()
         {
             List<Customer> customerList = customerContext.Collection().ToList();
@@ -95,11 +97,13 @@ namespace AdvancedProgramming
 
 
             List<Job> jobList = jobContext.Collection().ToList();
-            jobsList = jobContext.Collection().ToList();
+            jobsList = jobContext.Collection().Where(c => c.Completed == "3").ToList();
             jobListSize = jobsList.Count();
 
             selectedJob = jobsList.FirstOrDefault();
             jobPosition = jobsList.IndexOf(selectedJob);
+
+
 
             List<AssignedTo> assignedToList = assignedToContext.Collection().ToList();
             cmbAssignedTo.ItemsSource = assignedToList;
@@ -117,7 +121,7 @@ namespace AdvancedProgramming
             cmbCompleted.DisplayMemberPath = "Name";
             cmbCompleted.SelectedValuePath = "Id";
 
-            completedsList = completedContext.Collection().ToList();
+            completedsList = completedContext.Collection().Where(c => c.Name == "Completed").ToList();
             completedListSize = completedsList.Count();
 
             seletedCompleted = completedsList.FirstOrDefault();
@@ -129,35 +133,15 @@ namespace AdvancedProgramming
             txtPrice.Text = selectedJob.Price.ToString();
             cmbAssignedTo.SelectedValue = selectedJob.AssignedTo;
             cmbCompleted.SelectedValue = selectedJob.Completed;
-            txtNotes.Text = selectedJob.Notes;
         }
 
-        private void FirstRecord(object sender, RoutedEventArgs e)
-        {
-            audit.LogAction("clicked to view first job", loggedInUser.ToString());
-            selectedCustomer = customersList.FirstOrDefault();
-            //selectedUser = usersList.FirstOrDefault();
-            selectedJob = jobsList.FirstOrDefault();
-            //selectedAssignedTo = assignedTosList.FirstOrDefault();
-            //selectedCompleted = completedsList.FirstOrDefault();
-
-            customerPosition = customersList.IndexOf(selectedCustomer);
-            userPosition = usersList.IndexOf(selectedUser);
-            jobPosition = jobsList.IndexOf(selectedJob);
-
-            cmbCustomer.SelectedValue = selectedJob.CustomerName;
-            txtDescription.Text = selectedJob.Description;
-            txtPrice.Text = selectedJob.Price.ToString();
-            cmbAssignedTo.SelectedValue = selectedJob.AssignedTo;
-            cmbCompleted.SelectedValue = selectedJob.Completed;
-            txtNotes.Text = selectedJob.Notes;
-        }
 
         private void PreviousRecord(object sender, RoutedEventArgs e)
         {
             if (jobPosition != 0)
             {
                 audit.LogAction("clicked to view previous job", loggedInUser.ToString());
+
                 selectedJob = jobsList[jobPosition - 1];
                 jobPosition = jobsList.IndexOf(selectedJob);
 
@@ -166,7 +150,6 @@ namespace AdvancedProgramming
                 txtPrice.Text = selectedJob.Price.ToString();
                 cmbAssignedTo.SelectedValue = selectedJob.AssignedTo;
                 cmbCompleted.SelectedValue = selectedJob.Completed;
-                txtNotes.Text = selectedJob.Notes;
             }
         }
 
@@ -175,6 +158,7 @@ namespace AdvancedProgramming
             if (jobPosition != jobListSize - 1)
             {
                 audit.LogAction("clicked to view next job", loggedInUser.ToString());
+
                 jobPosition = jobListSize - 1;
                 selectedJob = jobsList[jobPosition];
 
@@ -183,52 +167,15 @@ namespace AdvancedProgramming
                 txtPrice.Text = selectedJob.Price.ToString();
                 cmbAssignedTo.SelectedValue = selectedJob.AssignedTo;
                 cmbCompleted.SelectedValue = selectedJob.Completed;
-                txtNotes.Text = selectedJob.Notes;
             }
-        }
-
-        private void LastRecord(object sender, RoutedEventArgs e)
-        {
-            if (jobPosition != jobListSize - 1)
-            {
-                audit.LogAction("clicked to view last job", loggedInUser.ToString());
-                jobPosition++;
-                selectedJob = jobsList[jobPosition];
-
-                cmbCustomer.SelectedValue = selectedJob.CustomerName;
-                txtDescription.Text = selectedJob.Description;
-                txtPrice.Text = selectedJob.Price.ToString();
-                cmbAssignedTo.SelectedValue = selectedJob.AssignedTo;
-                cmbCompleted.SelectedValue = selectedJob.Completed;
-                txtNotes.Text = selectedJob.Notes;
-            }
-        }
-
-        private async void SaveRecord(object sender, RoutedEventArgs e)
-        {
-            txtNotes.Text = selectedJob.Notes;
-
-            jobContext.Update(selectedJob);
-            await jobContext.Commit();
-            MessageBox.Show("Record saved successfully!");
-            audit.LogAction("updated a job", loggedInUser.ToString());
         }
 
         private void Back(object sender, RoutedEventArgs e)
         {
             this.Hide();
-            MechanicMenu hmm = new MechanicMenu(loggedInUser);
-            audit.LogAction("entered mechanic menu", loggedInUser.ToString());
+            HeadMechanicMenu hmm = new HeadMechanicMenu(loggedInUser);
+            audit.LogAction("navigated to head mechanic menu", loggedInUser.ToString());
             hmm.Show();
-        }
-
-        private void ViewTasks(object sender, RoutedEventArgs e)
-        {
-            string jobID = selectedJob.Id;
-            this.Hide();
-            MechanicManageTasks hmmt = new MechanicManageTasks(loggedInUser, jobID);
-            audit.LogAction("entered manage mechanic tasks page", loggedInUser.ToString());
-            hmmt.Show();
         }
     }
 }

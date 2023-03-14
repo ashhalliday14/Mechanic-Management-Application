@@ -33,7 +33,7 @@
                     <MenuItem Header="_Menu" >
                         <MenuItem Header="_Manage Jobs" Click="HeadMechanicManageJobs"/>
                         <!--<MenuItem Header="_Manage Tasks" Click="ManageTasks"/>-->
-                        <MenuItem Header="_Completed Jobs and Tasks"/>
+                        <MenuItem Header="_Completed Jobs and Tasks" Click="HeadMechanicCompletedJobs"/>
                         <Separator />
                         <MenuItem Header="_Logout" Click="Exit"/>
                     </MenuItem>

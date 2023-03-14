@@ -28,6 +28,8 @@ namespace AdvancedProgramming
 
         User loggedInUser;
 
+        AuditLog audit = new AuditLog();
+
         List<Customer> customersList;
         Customer selectedCustomer;
         int customerListsSize = 0;
@@ -57,6 +59,7 @@ namespace AdvancedProgramming
 
         private void FirstRecord(object sender, RoutedEventArgs e)
         {
+            audit.LogAction("clicked to view first customer", loggedInUser.ToString());
             selectedCustomer = customersList.FirstOrDefault();
             position = customersList.IndexOf(selectedCustomer);
             txtCustomerName.Text = selectedCustomer.Name;
@@ -69,6 +72,7 @@ namespace AdvancedProgramming
         {
             if (position != 0)
             {
+                audit.LogAction("clicked to view previous customer", loggedInUser.ToString());
                 selectedCustomer = customersList[position - 1];
                 position = customersList.IndexOf(selectedCustomer);
                 txtCustomerName.Text = selectedCustomer.Name;
@@ -82,6 +86,7 @@ namespace AdvancedProgramming
         {
             if (position != customerListsSize - 1)
             {
+                audit.LogAction("clicked to view next customer", loggedInUser.ToString());
                 position = customerListsSize - 1;
                 selectedCustomer = customersList[position];
                 txtCustomerName.Text = selectedCustomer.Name;
@@ -95,6 +100,7 @@ namespace AdvancedProgramming
         {
             if (position != customerListsSize - 1)
             {
+                audit.LogAction("clicked to view last customer", loggedInUser.ToString());
                 position++;
                 selectedCustomer = customersList[position];
                 txtCustomerName.Text = selectedCustomer.Name;
@@ -113,12 +119,14 @@ namespace AdvancedProgramming
             customerContext.Update(selectedCustomer);
             await customerContext.Commit();
             MessageBox.Show("Record saved successfully!");
+            audit.LogAction("updated a customer record", loggedInUser.ToString());
         }
 
         private void Back(object sender, RoutedEventArgs e)
         {
             this.Hide();
             OfficeAdminMenu oam = new OfficeAdminMenu(loggedInUser);
+            audit.LogAction("entered office admin menu", loggedInUser.ToString());
             oam.Show();
         }
 
@@ -129,6 +137,7 @@ namespace AdvancedProgramming
                 customerContext.Delete(selectedCustomer.Id);
                 await customerContext.Commit();
                 MessageBox.Show("Customer has been successfully deleted!");
+                audit.LogAction("deleted a customer", loggedInUser.ToString());
                 RefreshData();
             }
         }
@@ -137,6 +146,7 @@ namespace AdvancedProgramming
         {
             this.Hide();
             OfficeAdminCreateCustomers oicc = new OfficeAdminCreateCustomers(loggedInUser);
+            audit.LogAction("entered create a customer page", loggedInUser.ToString());
             oicc.Show();
         }
     }

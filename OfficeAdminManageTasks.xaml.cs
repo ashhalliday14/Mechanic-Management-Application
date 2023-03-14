@@ -24,6 +24,8 @@ namespace AdvancedProgramming
     {
         User loggedInUser;
 
+        AuditLog audit = new AuditLog();
+
         IRepository<AssignedTo> assignedToContext;
         IRepository<Completed> completedContext;
         IRepository<Task> taskContext;
@@ -104,11 +106,13 @@ namespace AdvancedProgramming
         {
             this.Hide();
             OfficeAdminManageJobs oimj = new OfficeAdminManageJobs(loggedInUser);
+            audit.LogAction("entered office admin manage jobs page", loggedInUser.ToString());
             oimj.Show();
         }
 
         private void FirstRecord(object sender, RoutedEventArgs e)
         {
+            audit.LogAction("clicked to view first task", loggedInUser.ToString());
             selectedTask = tasksList.FirstOrDefault();
             selectedAssignedTo = assignedTosList.FirstOrDefault();
             seletedCompleted = completedsList.FirstOrDefault();
@@ -129,6 +133,7 @@ namespace AdvancedProgramming
         {
             if (taskPosition != 0)
             {
+                audit.LogAction("clicked to view previous task", loggedInUser.ToString());
                 selectedTask = tasksList[taskPosition - 1];
                 taskPosition = tasksList.IndexOf(selectedTask);
 
@@ -145,6 +150,7 @@ namespace AdvancedProgramming
         {
             if (taskPosition != taskListSize - 1)
             {
+                audit.LogAction("clicked to view next task", loggedInUser.ToString());
                 taskPosition = taskListSize - 1;
                 selectedTask = tasksList[taskPosition];
 
@@ -161,6 +167,7 @@ namespace AdvancedProgramming
         {
             if (taskPosition != taskListSize - 1)
             {
+                audit.LogAction("clicked to view last task", loggedInUser.ToString());
                 taskPosition++;
                 selectedTask = tasksList[taskPosition];
 

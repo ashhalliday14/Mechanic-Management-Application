@@ -25,6 +25,8 @@ namespace AdvancedProgramming
     {
         User loggedInUser;
 
+        AuditLog audit = new AuditLog();
+
         IRepository<AssignedTo> assignedToContext;
         IRepository<Completed> completedContext;
         IRepository<Task> taskContext;
@@ -105,11 +107,13 @@ namespace AdvancedProgramming
         {
             this.Hide();
             ManageJobs ct = new ManageJobs(loggedInUser);
+            audit.LogAction("entered manage jobs page", loggedInUser.ToString());
             ct.Show();
         }
 
         private void FirstRecord(object sender, RoutedEventArgs e)
         {
+            audit.LogAction("clicked to view first task", loggedInUser.ToString());
             selectedTask = tasksList.FirstOrDefault();
             selectedAssignedTo = assignedTosList.FirstOrDefault();
             seletedCompleted = completedsList.FirstOrDefault();
@@ -130,6 +134,7 @@ namespace AdvancedProgramming
         {
             if (taskPosition != 0)
             {
+                audit.LogAction("clicked to view previous task", loggedInUser.ToString());
                 selectedTask = tasksList[taskPosition - 1];
                 taskPosition = tasksList.IndexOf(selectedTask);
 
@@ -146,6 +151,7 @@ namespace AdvancedProgramming
         {
             if (taskPosition != taskListSize - 1)
             {
+                audit.LogAction("clicked to view next task", loggedInUser.ToString());
                 taskPosition = taskListSize - 1;
                 selectedTask = tasksList[taskPosition];
 
@@ -162,6 +168,7 @@ namespace AdvancedProgramming
         {
             if (taskPosition != taskListSize - 1)
             {
+                audit.LogAction("clicked to view last task", loggedInUser.ToString());
                 taskPosition++;
                 selectedTask = tasksList[taskPosition];
 
@@ -192,20 +199,25 @@ namespace AdvancedProgramming
                 int jobCount = (int)countCommand.ExecuteScalar();
                 if (jobCount >= MaxTasksPerUser)
                 {
-                    throw new Exception("User has too many tasks assigned.");
+                    //throw new Exception("User has too many tasks assigned.");
                     MessageBox.Show("User has too many tasks assigned. Please select another user");
+                    audit.LogAction("attempted to update a task for a user with too many tasks assigned", loggedInUser.ToString());
+                }
+                else
+                {
+                    selectedTask.JobID = txtJobID.Text;
+                    selectedTask.TaskName = txtTaskName.Text;
+                    selectedTask.Description = txtDescription.Text;
+                    selectedTask.Price = Convert.ToDecimal(txtPrice.Text);
+                    selectedTask.AssignedTo = cmbAssignedTo.SelectedValue.ToString();
+                    selectedTask.Completed = cmbCompleted.SelectedValue.ToString();
+
+                    taskContext.Update(selectedTask);
+                    await taskContext.Commit();
+                    MessageBox.Show("Record saved successfully!");
+                    audit.LogAction("updated a task", loggedInUser.ToString());
                 }
             }
-            selectedTask.JobID = txtJobID.Text;
-            selectedTask.TaskName = txtTaskName.Text;
-            selectedTask.Description = txtDescription.Text;
-            selectedTask.Price = Convert.ToDecimal(txtPrice.Text);
-            selectedTask.AssignedTo = cmbAssignedTo.SelectedValue.ToString();
-            selectedTask.Completed = cmbCompleted.SelectedValue.ToString();
-
-            taskContext.Update(selectedTask);
-            await taskContext.Commit();
-            MessageBox.Show("Record saved successfully!");
         }
 
         private async void DeleteTask(object sender, RoutedEventArgs e)
@@ -216,6 +228,7 @@ namespace AdvancedProgramming
                 taskContext.Delete(selectedTask.Id);
                 await taskContext.Commit();
                 MessageBox.Show("Task has been successfully deleted!");
+                audit.LogAction("deleted a task", loggedInUser.ToString());
                 RefreshData(jobID);
             }
         }

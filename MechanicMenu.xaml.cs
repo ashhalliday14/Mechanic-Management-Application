@@ -26,6 +26,8 @@ namespace AdvancedProgramming
         User loggedInUser;
         List<string> messages;
 
+        AuditLog audit = new AuditLog();
+
         //IRepositories for all elements of the job
         IRepository<Customer> customerContext;
         IRepository<Job> jobContext;
@@ -89,6 +91,7 @@ namespace AdvancedProgramming
         {
             Hide();
             MechanicManageJobs mmj = new MechanicManageJobs(loggedInUser);
+            audit.LogAction("entered mechanic manage jobs page", loggedInUser.ToString());
             mmj.Show();
         }
 
@@ -115,6 +118,7 @@ namespace AdvancedProgramming
             var random = new Random();
             int index = random.Next(messages.Count);
             lblMessage.Text = messages[index];
+            audit.LogAction("refreshed message on dashboatd", loggedInUser.ToString());
         }
 
         private void RefreshTasks(object sender, RoutedEventArgs e)
@@ -153,21 +157,22 @@ namespace AdvancedProgramming
             //set values of fields 
             txtTaskName.Text = selectedTask.TaskName;
             txtDescription.Text = selectedTask.Description;
-            cmbAssignedTo.SelectedValue = selectedAssignedTo.Id;
-            cmbCompleted.SelectedValue = seletedCompleted.Id;
+            cmbAssignedTo.SelectedValue = selectedTask.AssignedTo;
+            cmbCompleted.SelectedValue = selectedTask.Completed;
         }
 
         private void PreviousRecord(object sender, RoutedEventArgs e)
         {
             if (taskPosition != 0)
             {
+                audit.LogAction("clicked to view previous task", loggedInUser.ToString());
                 selectedTask = tasksList[taskPosition - 1];
                 taskPosition = tasksList.IndexOf(selectedTask);
 
                 txtTaskName.Text = selectedTask.TaskName;
                 txtDescription.Text = selectedTask.Description;
-                cmbAssignedTo.SelectedValue = selectedAssignedTo.Id;
-                cmbCompleted.SelectedValue = seletedCompleted.Id;
+                cmbAssignedTo.SelectedValue = selectedTask.AssignedTo;
+                cmbCompleted.SelectedValue = selectedTask.Completed;
             }
         }
 
@@ -175,18 +180,20 @@ namespace AdvancedProgramming
         {
             if (taskPosition != taskListSize - 1)
             {
+                audit.LogAction("clicked to view next task", loggedInUser.ToString());
                 taskPosition = taskListSize - 1;
                 selectedTask = tasksList[taskPosition];
 
                 txtTaskName.Text = selectedTask.TaskName;
                 txtDescription.Text = selectedTask.Description;
-                cmbAssignedTo.SelectedValue = selectedAssignedTo.Id;
-                cmbCompleted.SelectedValue = seletedCompleted.Id;
+                cmbAssignedTo.SelectedValue = selectedTask.AssignedTo;
+                cmbCompleted.SelectedValue = selectedTask.Completed;
             }
         }
 
         private void Exit(object sender, RoutedEventArgs e)
         {
+            audit.LogAction("logged out", loggedInUser.ToString());
             System.Windows.Application.Current.Shutdown();
         }
     }

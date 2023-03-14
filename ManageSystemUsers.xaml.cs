@@ -27,6 +27,8 @@ namespace AdvancedProgramming
         IRepository<Role> roleContext;
         User loggedInUser;
 
+        AuditLog audit = new AuditLog();
+
         List<User> usersList;
         User selectedUser;
         int userListsSize = 0;
@@ -63,6 +65,7 @@ namespace AdvancedProgramming
 
         private void FirstRecord(object sender, RoutedEventArgs e)
         {
+            audit.LogAction("clicked to view first user", loggedInUser.ToString());
             selectedUser = usersList.FirstOrDefault();
             position = usersList.IndexOf(selectedUser);
             txtUsername.Text = selectedUser.Username;
@@ -74,6 +77,7 @@ namespace AdvancedProgramming
         {
             if (position != 0)
             {
+                audit.LogAction("clicked to view previous user", loggedInUser.ToString());
                 selectedUser = usersList[position - 1];
                 position = usersList.IndexOf(selectedUser);
                 txtUsername.Text = selectedUser.Username;
@@ -86,6 +90,7 @@ namespace AdvancedProgramming
         {
             if (position != userListsSize -1)
             {
+                audit.LogAction("clicked to view next user", loggedInUser.ToString());
                 position = userListsSize - 1;
                 selectedUser = usersList[position];
                 txtUsername.Text = selectedUser.Username;
@@ -98,6 +103,7 @@ namespace AdvancedProgramming
         {
             if (position != userListsSize - 1)
             {
+                audit.LogAction("clicked to view last user", loggedInUser.ToString());
                 position++;
                 selectedUser = usersList[position];
                 txtUsername.Text = selectedUser.Username;
@@ -113,6 +119,7 @@ namespace AdvancedProgramming
             selectedUser.Role = cmbRole.SelectedValue.ToString();
             userContext.Update(selectedUser);
             await userContext.Commit();
+            audit.LogAction("updated user details", loggedInUser.ToString());
             MessageBox.Show("Record saved successfully!");
         }
 
@@ -120,6 +127,7 @@ namespace AdvancedProgramming
         {
             this.Hide();
             SystemAdminMenu sam = new SystemAdminMenu(loggedInUser);
+            audit.LogAction("entered system admin menu", loggedInUser.ToString());
             sam.Show();
         }
 
@@ -129,6 +137,7 @@ namespace AdvancedProgramming
             {
                 userContext.Delete(selectedUser.Id);
                 await userContext.Commit();
+                audit.LogAction("deleted a system user", loggedInUser.ToString());
                 MessageBox.Show("User has been successfully deleted!");
                 RefreshData();
             }
@@ -138,6 +147,7 @@ namespace AdvancedProgramming
         {
             this.Hide();
             CreateUser cu = new CreateUser(loggedInUser);
+            audit.LogAction("entered create a user page", loggedInUser.ToString());
             cu.Show();
         }
     }

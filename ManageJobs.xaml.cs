@@ -35,6 +35,8 @@ namespace AdvancedProgramming
         //get the logged in user
         User loggedInUser;
 
+        AuditLog audit = new AuditLog();
+
         //create a list for customers
         List<Customer> customersList;
         Customer selectedCustomer;
@@ -134,6 +136,7 @@ namespace AdvancedProgramming
 
         private void FirstRecord(object sender, RoutedEventArgs e)
         {
+            audit.LogAction("clicked to view first job", loggedInUser.ToString());
             selectedCustomer = customersList.FirstOrDefault();
             //selectedUser = usersList.FirstOrDefault();
             selectedJob = jobsList.FirstOrDefault();
@@ -155,6 +158,7 @@ namespace AdvancedProgramming
         {
             if (jobPosition != 0)
             {
+                audit.LogAction("clicked to view previous job", loggedInUser.ToString());
                 selectedJob = jobsList[jobPosition - 1];
                 jobPosition = jobsList.IndexOf(selectedJob);
 
@@ -170,6 +174,7 @@ namespace AdvancedProgramming
         {
             if (jobPosition != jobListSize - 1)
             {
+                audit.LogAction("clicked to view next job", loggedInUser.ToString());
                 jobPosition = jobListSize - 1;
                 selectedJob = jobsList[jobPosition];
 
@@ -185,6 +190,7 @@ namespace AdvancedProgramming
         {
             if (jobPosition != jobListSize - 1)
             {
+                audit.LogAction("clicked to view last job", loggedInUser.ToString());
                 jobPosition++;
                 selectedJob = jobsList[jobPosition];
 
@@ -214,25 +220,31 @@ namespace AdvancedProgramming
                 int jobCount = (int)countCommand.ExecuteScalar();
                 if (jobCount >= MaxJobsPerUser)
                 {
-                    throw new Exception("User has too many jobs assigned.");
+                    //throw new Exception("User has too many jobs assigned.");
                     MessageBox.Show("User has too many jobs assigned. Please select another user");
+                    audit.LogAction("tried to create job for user with too many jobs assigned", loggedInUser.ToString());
+                }
+                else
+                {
+                    selectedJob.CustomerName = cmbCustomer.SelectedValue.ToString();
+                    selectedJob.Description = txtDescription.Text;
+                    selectedJob.Price = Convert.ToDecimal(txtPrice.Text);
+                    selectedJob.AssignedTo = cmbAssignedTo.SelectedValue.ToString();
+                    selectedJob.Completed = cmbCompleted.SelectedValue.ToString();
+
+                    jobContext.Update(selectedJob);
+                    await jobContext.Commit();
+                    audit.LogAction("created a new job", loggedInUser.ToString());
+                    MessageBox.Show("Record saved successfully!");
                 }
             }
-            selectedJob.CustomerName = cmbCustomer.SelectedValue.ToString();
-            selectedJob.Description = txtDescription.Text;
-            selectedJob.Price = Convert.ToDecimal(txtPrice.Text);
-            selectedJob.AssignedTo = cmbAssignedTo.SelectedValue.ToString();
-            selectedJob.Completed = cmbCompleted.SelectedValue.ToString();
-            
-            jobContext.Update(selectedJob);
-            await jobContext.Commit();
-            MessageBox.Show("Record saved successfully!");
         }
 
         private void Back(object sender, RoutedEventArgs e)
         {
             this.Hide();
             SystemAdminMenu sam = new SystemAdminMenu(loggedInUser);
+            audit.LogAction("entered system admin menu", loggedInUser.ToString());
             sam.Show();
         }
 
@@ -242,6 +254,7 @@ namespace AdvancedProgramming
             {
                 jobContext.Delete(selectedJob.Id);
                 await jobContext.Commit();
+                audit.LogAction("deleted a job", loggedInUser.ToString());
                 MessageBox.Show("Job has been successfully deleted!");
                 RefreshData();
             }
@@ -251,6 +264,7 @@ namespace AdvancedProgramming
         {
             this.Hide();
             CreateJob cj = new CreateJob(loggedInUser);
+            audit.LogAction("entered create a job page", loggedInUser.ToString());
             cj.Show();
         }
 
@@ -259,6 +273,7 @@ namespace AdvancedProgramming
             string jobID = selectedJob.Id;
             this.Hide();
             CreateTask ct = new CreateTask(loggedInUser, jobID);
+            audit.LogAction("entered create a task page", loggedInUser.ToString());
             ct.Show();
         }
 
@@ -267,6 +282,7 @@ namespace AdvancedProgramming
             string jobID = selectedJob.Id;
             this.Hide();
             ManageTasks mt = new ManageTasks(loggedInUser, jobID);
+            audit.LogAction("entered manage tasks page", loggedInUser.ToString());
             mt.Show();
         }
 
@@ -275,6 +291,7 @@ namespace AdvancedProgramming
             string jobID = selectedJob.Id;
             this.Hide();
             CreateInvoice ci = new CreateInvoice(loggedInUser, jobID);
+            audit.LogAction("entered create an invoice page", loggedInUser.ToString());
             ci.Show();
         }
 
@@ -283,6 +300,7 @@ namespace AdvancedProgramming
             string jobID = selectedJob.Id;
             this.Hide();
             ManageInvoices mi = new ManageInvoices(loggedInUser, jobID);
+            audit.LogAction("entered manage invoices page", loggedInUser.ToString());
             mi.Show();
         }
     }

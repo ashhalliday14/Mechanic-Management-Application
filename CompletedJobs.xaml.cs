@@ -17,7 +17,7 @@ using AdvancedProgramming.Contracts;
 using Unity;
 using DatabaseExample.Models;
 using System.Data.SqlClient;
-using System.Collections.Generic;
+//using System.Collections.Generic;
 
 namespace AdvancedProgramming
 {
@@ -35,6 +35,8 @@ namespace AdvancedProgramming
 
         //get the logged in user
         User loggedInUser;
+
+        AuditLog audit = new AuditLog();
 
         //create a list for customers
         List<Customer> customersList;
@@ -65,6 +67,7 @@ namespace AdvancedProgramming
         Completed seletedCompleted;
         int completedListSize = 0;
         int completedPosition = 0;
+
         public CompletedJobs(User u)
         {
             loggedInUser = u;
@@ -83,160 +86,50 @@ namespace AdvancedProgramming
 
         private void RefreshData()
         {
-            string connectionString = @"Data Source=localhost\SQLEXPRESS;Initial Catalog=AdvancedProgramming;Integrated Security=True";
-            string query = "SELECT * FROM dbo.Jobs WHERE Completed = 3";
-            List<Job> jobs = new List<Job>();
+            List<Customer> customerList = customerContext.Collection().ToList();
+            cmbCustomer.ItemsSource = customerList;
+            cmbCustomer.DisplayMemberPath = "Name";
+            cmbCustomer.SelectedValuePath = "Id";
 
-            using (SqlConnection connection = new SqlConnection(connectionString))
-            {
-                SqlCommand command = new SqlCommand(query, connection);
-                connection.Open();
-                SqlDataReader reader = command.ExecuteReader();
+            customersList = customerContext.Collection().ToList();
+            customerListsSize = customersList.Count();
 
-                while (reader.Read())
-                {
-                    // Get job data from reader
-                    string jobId = reader.GetString(0);
-                    string jobDescription = reader.GetString(1);
-                    decimal jobPrice = reader.GetDecimal(2);
-                    string assignedTo = reader.GetString(3);
-                    string jobStatus = reader.GetString(4);
-                    string customerName = reader.GetString(6);
-
-                    //string customerName = reader.GetString(1);
-                    // string jobDescription = reader.GetString(2);
-                    //decimal jobPrice = reader.GetDecimal(3);
-                    //string assignedTo = reader.GetString(4);
-                    //string jobStatus = reader.GetString(5);
-
-                    // Create a new job object with the retrieved data
-                    //Job job = new Job(jobId, customerName, jobDescription, jobPrice, assignedTo, jobStatus);
-
-                    List<Customer> customerList = customerContext.Collection().ToList();
-                    cmbCustomer.ItemsSource = customerList;
-                    cmbCustomer.DisplayMemberPath = "Name";
-                    cmbCustomer.SelectedValuePath = "Id";
-
-                    customersList = customerContext.Collection().ToList();
-                    customerListsSize = customersList.Count();
-
-                    selectedCustomer = customersList.FirstOrDefault();
-                    customerPosition = customersList.IndexOf(selectedCustomer);
-
-
-                    List<Job> jobList = jobContext.Collection().ToList();
-                    jobsList = jobContext.Collection().ToList();
-                    jobListSize = jobsList.Count();
-
-                    selectedJob = jobsList.FirstOrDefault();
-                    jobPosition = jobsList.IndexOf(selectedJob);
-
-                    List<AssignedTo> assignedToList = assignedToContext.Collection().ToList();
-                    cmbAssignedTo.ItemsSource = assignedToList;
-                    cmbAssignedTo.DisplayMemberPath = "Name";
-                    cmbAssignedTo.SelectedValuePath = "Id";
-
-                    assignedTosList = assignedToContext.Collection().ToList();
-                    assignedToListSize = assignedTosList.Count();
-
-                    selectedAssignedTo = assignedTosList.FirstOrDefault();
-                    assignedToPosition = assignedTosList.IndexOf(selectedAssignedTo);
-
-                    List<Completed> completedList = completedContext.Collection().ToList();
-                    cmbCompleted.ItemsSource = completedList;
-                    cmbCompleted.DisplayMemberPath = "Name";
-                    cmbCompleted.SelectedValuePath = "Id";
-
-                    completedsList = completedContext.Collection().ToList();
-                    completedListSize = completedsList.Count();
-
-                    seletedCompleted = completedsList.FirstOrDefault();
-                    completedPosition = completedsList.IndexOf(seletedCompleted);
-
-                    // Display job data in UI controls
-                    cmbCustomer.SelectedValue = customerName.ToString();
-                    //cmbCustomer.Text = customerName.ToString();
-                    txtDescription.Text = jobDescription;
-                    txtPrice.Text = jobPrice.ToString();
-                    //cmbAssignedTo.Text = assignedTo.ToString();
-                    cmbAssignedTo.SelectedValue = assignedTo.ToString();
-                    //cmbCompleted.Text = jobStatus.ToString();
-                    cmbCompleted.SelectedValue = jobStatus.ToString();
-
-
-
-                    //List<Customer> customerList = customerContext.Collection().ToList();
-                    //cmbCustomer.ItemsSource = customerList;
-                    //cmbCustomer.DisplayMemberPath = "Name";
-                    //cmbCustomer.SelectedValuePath = "Id";
-
-                    //customersList = customerContext.Collection().ToList();
-                    //customerListsSize = customersList.Count();
-
-                    //selectedCustomer = customersList.FirstOrDefault();
-                    //customerPosition = customersList.IndexOf(selectedCustomer);
-
-
-                    //List<Job> jobList = jobContext.Collection().ToList();
-                    //jobsList = jobContext.Collection().ToList();
-                    //jobListSize = jobsList.Count();
-
-                    //selectedJob = jobsList.FirstOrDefault();
-                    //jobPosition = jobsList.IndexOf(selectedJob);
-
-                    //List<AssignedTo> assignedToList = assignedToContext.Collection().ToList();
-                    //cmbAssignedTo.ItemsSource = assignedToList;
-                    //cmbAssignedTo.DisplayMemberPath = "Name";
-                    //cmbAssignedTo.SelectedValuePath = "Id";
-
-                    //assignedTosList = assignedToContext.Collection().ToList();
-                    //assignedToListSize = assignedTosList.Count();
-
-                    //selectedAssignedTo = assignedTosList.FirstOrDefault();
-                    //assignedToPosition = assignedTosList.IndexOf(selectedAssignedTo);
-
-                    //List<Completed> completedList = completedContext.Collection().ToList();
-                    //cmbCompleted.ItemsSource = completedList;
-                    //cmbCompleted.DisplayMemberPath = "Name";
-                    //cmbCompleted.SelectedValuePath = "Id";
-
-                    //completedsList = completedContext.Collection().ToList();
-                    //completedListSize = completedsList.Count();
-
-                    //seletedCompleted = completedsList.FirstOrDefault();
-                    //completedPosition = completedsList.IndexOf(seletedCompleted);
-
-                    ////set values of fields 
-                    //cmbCustomer.SelectedValue = selectedJob.CustomerName;
-                    //txtDescription.Text = selectedJob.Description;
-                    //txtPrice.Text = selectedJob.Price.ToString();
-                    //cmbAssignedTo.SelectedValue = selectedJob.AssignedTo;
-                    //cmbCompleted.SelectedValue = seletedCompleted.Id;
-                }
-
-                reader.Close();
-            }
-        }
-
-        private void Back(object sender, RoutedEventArgs e)
-        {
-            this.Hide();
-            SystemAdminMenu sam = new SystemAdminMenu(loggedInUser);
-            sam.Show();
-        }
-
-        private void FirstRecord(object sender, RoutedEventArgs e)
-        {         
             selectedCustomer = customersList.FirstOrDefault();
-            //selectedUser = usersList.FirstOrDefault();
-            selectedJob = jobsList.FirstOrDefault();
-            //selectedAssignedTo = assignedTosList.FirstOrDefault();
-            //selectedCompleted = completedsList.FirstOrDefault();
-
             customerPosition = customersList.IndexOf(selectedCustomer);
-            userPosition = usersList.IndexOf(selectedUser);
+
+
+            List<Job> jobList = jobContext.Collection().ToList();
+            jobsList = jobContext.Collection().Where(c => c.Completed == "3").ToList();
+            jobListSize = jobsList.Count();
+
+            selectedJob = jobsList.FirstOrDefault();
             jobPosition = jobsList.IndexOf(selectedJob);
 
+
+
+            List<AssignedTo> assignedToList = assignedToContext.Collection().ToList();
+            cmbAssignedTo.ItemsSource = assignedToList;
+            cmbAssignedTo.DisplayMemberPath = "Name";
+            cmbAssignedTo.SelectedValuePath = "Id";
+
+            assignedTosList = assignedToContext.Collection().ToList();
+            assignedToListSize = assignedTosList.Count();
+
+            selectedAssignedTo = assignedTosList.FirstOrDefault();
+            assignedToPosition = assignedTosList.IndexOf(selectedAssignedTo);
+
+            List<Completed> completedList = completedContext.Collection().ToList();
+            cmbCompleted.ItemsSource = completedList;
+            cmbCompleted.DisplayMemberPath = "Name";
+            cmbCompleted.SelectedValuePath = "Id";
+
+            completedsList = completedContext.Collection().Where(c => c.Name == "Completed").ToList();
+            completedListSize = completedsList.Count();
+
+            seletedCompleted = completedsList.FirstOrDefault();
+            completedPosition = completedsList.IndexOf(seletedCompleted);
+
+            //set values of fields 
             cmbCustomer.SelectedValue = selectedJob.CustomerName;
             txtDescription.Text = selectedJob.Description;
             txtPrice.Text = selectedJob.Price.ToString();
@@ -244,10 +137,20 @@ namespace AdvancedProgramming
             cmbCompleted.SelectedValue = selectedJob.Completed;
         }
 
+        private void Back(object sender, RoutedEventArgs e)
+        {
+            Hide();
+            SystemAdminMenu sam = new SystemAdminMenu(loggedInUser);
+            audit.LogAction("navigated to system admin menu", loggedInUser.ToString());
+            sam.Show();
+        }
+
         private void PreviousRecord(object sender, RoutedEventArgs e)
         {
             if (jobPosition != 0)
             {
+                audit.LogAction("clicked to view previous job", loggedInUser.ToString());
+                
                 selectedJob = jobsList[jobPosition - 1];
                 jobPosition = jobsList.IndexOf(selectedJob);
 
@@ -263,22 +166,9 @@ namespace AdvancedProgramming
         {
             if (jobPosition != jobListSize - 1)
             {
+                audit.LogAction("clicked to view next job", loggedInUser.ToString());
+                
                 jobPosition = jobListSize - 1;
-                selectedJob = jobsList[jobPosition];
-
-                cmbCustomer.SelectedValue = selectedJob.CustomerName;
-                txtDescription.Text = selectedJob.Description;
-                txtPrice.Text = selectedJob.Price.ToString();
-                cmbAssignedTo.SelectedValue = selectedJob.AssignedTo;
-                cmbCompleted.SelectedValue = selectedJob.Completed;
-            }
-        }
-
-        private void LastRecord(object sender, RoutedEventArgs e)
-        {
-            if (jobPosition != jobListSize - 1)
-            {
-                jobPosition++;
                 selectedJob = jobsList[jobPosition];
 
                 cmbCustomer.SelectedValue = selectedJob.CustomerName;

@@ -26,6 +26,8 @@ namespace AdvancedProgramming
         //get the logged in user
         User loggedInUser;
 
+        AuditLog audit = new AuditLog();
+
         IRepository<Customer> customerContext;
         IRepository<Invoice> invoiceContext;
 
@@ -88,6 +90,7 @@ namespace AdvancedProgramming
             string jobID = txtJobID.Text;
             this.Hide();
             ManageTasks mt = new ManageTasks(loggedInUser, jobID);
+            audit.LogAction("entered manage tasks page", loggedInUser.ToString());
             mt.Show();
         }
 
@@ -102,11 +105,13 @@ namespace AdvancedProgramming
 
             invoiceContext.Update(selectedInvoice);
             await invoiceContext.Commit();
+            audit.LogAction("updated an invoice", loggedInUser.ToString());
             MessageBox.Show("Record saved successfully!");
         }
 
         private void FirstRecord(object sender, RoutedEventArgs e)
         {
+            audit.LogAction("clicked to view first invoice", loggedInUser.ToString());
             selectedCustomer = customersList.FirstOrDefault();
             //selectedUser = usersList.FirstOrDefault();
             //selectedJob = jobsList.FirstOrDefault();
@@ -128,6 +133,7 @@ namespace AdvancedProgramming
         {
             if (invoicePosition != 0)
             {
+                audit.LogAction("clicked to view previous invoice", loggedInUser.ToString());
                 selectedInvoice = invoicesList[invoicePosition - 1];
                 invoicePosition = invoicesList.IndexOf(selectedInvoice);
 
@@ -143,6 +149,7 @@ namespace AdvancedProgramming
         {
             if (invoicePosition != invoiceListSize - 1)
             {
+                audit.LogAction("clicked to view next invoice", loggedInUser.ToString());
                 invoicePosition = invoiceListSize - 1;
                 selectedInvoice = invoicesList[invoicePosition];
 
@@ -158,6 +165,7 @@ namespace AdvancedProgramming
         {
             if (invoicePosition != invoiceListSize - 1)
             {
+                audit.LogAction("clicked to view last invoice", loggedInUser.ToString());
                 invoicePosition++;
                 selectedInvoice = invoicesList[invoicePosition];
 

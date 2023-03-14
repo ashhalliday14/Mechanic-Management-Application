@@ -25,6 +25,7 @@ namespace AdvancedProgramming
     {
         User loggedInUser;
         List<string> messages;
+        AuditLog audit = new AuditLog();
 
         //IRepositories for all elements of the job
         IRepository<Customer> customerContext;
@@ -88,6 +89,7 @@ namespace AdvancedProgramming
         {
             Hide();
             HeadMechanicManageJobs hmmj = new HeadMechanicManageJobs(loggedInUser);
+            audit.LogAction("entered head mechanic manage jobs page", loggedInUser.ToString());
             hmmj.Show();
         }
 
@@ -114,6 +116,7 @@ namespace AdvancedProgramming
             var random = new Random();
             int index = random.Next(messages.Count);
             lblMessage.Text = messages[index];
+            audit.LogAction("refreshed message on dashboard", loggedInUser.ToString());
         }
 
         private void RefreshJobs(object sender, RoutedEventArgs e)
@@ -170,13 +173,14 @@ namespace AdvancedProgramming
         {
             if (jobPosition != 0)
             {
+                audit.LogAction("clicked to view previous job", loggedInUser.ToString());
                 selectedJob = jobsList[jobPosition - 1];
                 jobPosition = jobsList.IndexOf(selectedJob);
 
                 cmbCustomer.SelectedValue = selectedJob.CustomerName;
                 txtJobDescription.Text = selectedJob.Description;
-                cmbAssignedTo.SelectedValue = selectedAssignedTo.Id;
-                cmbCompleted.SelectedValue = seletedCompleted.Id;
+                cmbAssignedTo.SelectedValue = selectedJob.AssignedTo;
+                cmbCompleted.SelectedValue = selectedJob.Completed;
             }
         }
 
@@ -184,19 +188,29 @@ namespace AdvancedProgramming
         {
             if (jobPosition != jobListSize - 1)
             {
+                audit.LogAction("clicked to view next job", loggedInUser.ToString());
                 jobPosition = jobListSize - 1;
                 selectedJob = jobsList[jobPosition];
 
                 cmbCustomer.SelectedValue = selectedJob.CustomerName;
                 txtJobDescription.Text = selectedJob.Description;
-                cmbAssignedTo.SelectedValue = selectedAssignedTo.Id;
-                cmbCompleted.SelectedValue = seletedCompleted.Id;
+                cmbAssignedTo.SelectedValue = selectedJob.AssignedTo;
+                cmbCompleted.SelectedValue = selectedJob.Completed;
             }
         }      
 
         private void Exit(object sender, RoutedEventArgs e)
         {
+            audit.LogAction("logged out", loggedInUser.ToString());
             System.Windows.Application.Current.Shutdown();
+        }
+
+        private void HeadMechanicCompletedJobs(object sender, RoutedEventArgs e)
+        {
+            this.Hide();
+            HeadMechanicCompletedJobs hmcj = new HeadMechanicCompletedJobs(loggedInUser);
+            audit.LogAction("navigated to completed jobs", loggedInUser.ToString());
+            hmcj.Show();
         }
     }
 }

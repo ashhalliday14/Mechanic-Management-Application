@@ -26,6 +26,8 @@ namespace AdvancedProgramming
         User loggedInUser;
         List<string> messages;
 
+        AuditLog audit = new AuditLog();
+
         //IRepositories for all elements of the job
         IRepository<Customer> customerContext;
         IRepository<Job> jobContext;
@@ -89,6 +91,7 @@ namespace AdvancedProgramming
         {
             Hide();
             OfficeAdminManageCustomers oimc = new OfficeAdminManageCustomers(loggedInUser);
+            audit.LogAction("entered office admin manage customers page", loggedInUser.ToString());
             oimc.Show();
         }
 
@@ -96,6 +99,7 @@ namespace AdvancedProgramming
         {
             Hide();
             OfficeAdminManageJobs oimj = new OfficeAdminManageJobs(loggedInUser);
+            audit.LogAction("entered office admin manage jobs page", loggedInUser.ToString());
             oimj.Show();
         }
 
@@ -122,6 +126,7 @@ namespace AdvancedProgramming
             var random = new Random();
             int index = random.Next(messages.Count);
             lblMessage.Text = messages[index];
+            audit.LogAction("refreshed message on dashboard", loggedInUser.ToString());
         }
 
         private void RefreshJobs(object sender, RoutedEventArgs e)
@@ -170,21 +175,22 @@ namespace AdvancedProgramming
             //set values of fields 
             cmbCustomer.SelectedValue = selectedJob.CustomerName;
             txtJobDescription.Text = selectedJob.Description;
-            cmbAssignedTo.SelectedValue = selectedAssignedTo.Id;
-            cmbCompleted.SelectedValue = seletedCompleted.Id;
+            cmbAssignedTo.SelectedValue = selectedJob.AssignedTo;
+            cmbCompleted.SelectedValue = selectedJob.Completed;
         }
 
         private void PreviousRecord(object sender, RoutedEventArgs e)
         {
             if (jobPosition != 0)
             {
+                audit.LogAction("clicked to view previous job", loggedInUser.ToString());
                 selectedJob = jobsList[jobPosition - 1];
                 jobPosition = jobsList.IndexOf(selectedJob);
 
                 cmbCustomer.SelectedValue = selectedJob.CustomerName;
                 txtJobDescription.Text = selectedJob.Description;
-                cmbAssignedTo.SelectedValue = selectedAssignedTo.Id;
-                cmbCompleted.SelectedValue = seletedCompleted.Id;
+                cmbAssignedTo.SelectedValue = selectedJob.AssignedTo;
+                cmbCompleted.SelectedValue = selectedJob.Completed;
             }
         }
 
@@ -192,13 +198,14 @@ namespace AdvancedProgramming
         {
             if (jobPosition != jobListSize - 1)
             {
+                audit.LogAction("clicked to view next job", loggedInUser.ToString());
                 jobPosition = jobListSize - 1;
                 selectedJob = jobsList[jobPosition];
 
                 cmbCustomer.SelectedValue = selectedJob.CustomerName;
                 txtJobDescription.Text = selectedJob.Description;
-                cmbAssignedTo.SelectedValue = selectedAssignedTo.Id;
-                cmbCompleted.SelectedValue = seletedCompleted.Id;
+                cmbAssignedTo.SelectedValue = selectedJob.AssignedTo;
+                cmbCompleted.SelectedValue = selectedJob.Completed;
             }
         }
 
@@ -238,21 +245,22 @@ namespace AdvancedProgramming
             //set values of fields 
             txtTaskName.Text = selectedTask.TaskName;
             txtDescription.Text = selectedTask.Description;
-            cmbAssignedTo2.SelectedValue = selectedAssignedTo.Id;
-            cmbCompleted2.SelectedValue = seletedCompleted.Id;
+            cmbAssignedTo2.SelectedValue = selectedTask.AssignedTo;
+            cmbCompleted2.SelectedValue = selectedTask.Completed;
         }
 
         private void PreviousRecord2(object sender, RoutedEventArgs e)
         {
             if (taskPosition != 0)
             {
+                audit.LogAction("clicked to view previous task", loggedInUser.ToString());
                 selectedTask = tasksList[taskPosition - 1];
                 taskPosition = tasksList.IndexOf(selectedTask);
 
                 txtTaskName.Text = selectedTask.TaskName;
                 txtDescription.Text = selectedTask.Description;
-                cmbAssignedTo2.SelectedValue = selectedAssignedTo.Id;
-                cmbCompleted2.SelectedValue = seletedCompleted.Id;
+                cmbAssignedTo2.SelectedValue = selectedTask.AssignedTo;
+                cmbCompleted2.SelectedValue = selectedTask.Completed;
             }
         }
 
@@ -260,18 +268,20 @@ namespace AdvancedProgramming
         {
             if (taskPosition != taskListSize - 1)
             {
+                audit.LogAction("clicked to view next task", loggedInUser.ToString());
                 taskPosition = taskListSize - 1;
                 selectedTask = tasksList[taskPosition];
 
                 txtTaskName.Text = selectedTask.TaskName;
                 txtDescription.Text = selectedTask.Description;
-                cmbAssignedTo2.SelectedValue = selectedAssignedTo.Id;
-                cmbCompleted2.SelectedValue = seletedCompleted.Id;
+                cmbAssignedTo2.SelectedValue = selectedTask.AssignedTo;
+                cmbCompleted2.SelectedValue = selectedTask.Completed;
             }
         }
 
         private void Exit(object sender, RoutedEventArgs e)
         {
+            audit.LogAction("logged out", loggedInUser.ToString());
             System.Windows.Application.Current.Shutdown();
         }
 

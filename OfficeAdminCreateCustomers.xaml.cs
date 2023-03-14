@@ -26,6 +26,8 @@ namespace AdvancedProgramming
     {
         User loggedInUser;
 
+        AuditLog audit = new AuditLog();
+
         IRepository<Customer> customerContext;
         public OfficeAdminCreateCustomers(User u)
         {
@@ -40,6 +42,7 @@ namespace AdvancedProgramming
         {
             this.Hide();
             OfficeAdminMenu oim = new OfficeAdminMenu(loggedInUser);
+            audit.LogAction("entered office admin menu", loggedInUser.ToString());
             oim.Show();
         }
 
@@ -59,7 +62,9 @@ namespace AdvancedProgramming
                 customerContext.Insert(customer);
                 await customerContext.Commit();
                 MessageBox.Show("Customer has been successfully created");
+                audit.LogAction("created a new customer", loggedInUser.ToString());
                 OfficeAdminManageCustomers oimc = new OfficeAdminManageCustomers(loggedInUser);
+                audit.LogAction("entered office admin manage customers page", loggedInUser.ToString());
                 this.Hide();
                 oimc.Show();
             }
